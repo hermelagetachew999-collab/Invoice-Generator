@@ -9,7 +9,7 @@ export default function ContentSections() {
             <section id="about" className="space-y-4">
                 <h2 className="text-3xl font-bold">Why Freelancers Need Professional Invoices</h2>
                 <p className="text-lg text-gray-600">
-                    For freelancers and small business owners in Ethiopia, a professional invoice is more than just a request for payment—it's a critical legal document. It helps track your income, provides clarity to your clients, and simplifies your tax obligations. Whether you're a developer in Addis Ababa or a designer in Mekelle, our tool helps you create professional ETB invoices in seconds.
+                    For freelancers and small business owners in Ethiopia, a professional invoice is more than just a request for payment&mdash;it&apos;s a critical legal document. It helps track your income, provides clarity to your clients, and simplifies your tax obligations. Whether you&apos;re a developer in Addis Ababa or a designer in Mekelle, our tool helps you create professional ETB invoices in seconds.
                 </p>
             </section>
 
@@ -19,7 +19,7 @@ export default function ContentSections() {
                     <div className="space-y-2">
                         <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">1</div>
                         <h3 className="font-bold text-xl">Enter Details</h3>
-                        <p className="text-gray-600">Fill in your business name, address, and TIN. Add your client's information clearly.</p>
+                        <p className="text-gray-600">Fill in your business name, address, and TIN. Add your client&apos;s information clearly.</p>
                     </div>
                     <div className="space-y-2">
                         <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">2</div>
@@ -47,7 +47,7 @@ export default function ContentSections() {
                     </Card>
                     <Card className="p-6 space-y-2">
                         <h3 className="font-bold">Can I use this for international clients?</h3>
-                        <p className="text-gray-600">Yes! You can change the currency symbols or rates manually if needed, though it's optimized for Ethiopian Birr (ETB).</p>
+                        <p className="text-gray-600">Yes! You can change the currency symbols or rates manually if needed, though it&apos;s optimized for Ethiopian Birr (ETB).</p>
                     </Card>
                     <Card className="p-6 space-y-2">
                         <h3 className="font-bold">Is my data secure?</h3>
