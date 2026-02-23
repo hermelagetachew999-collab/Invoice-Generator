@@ -133,6 +133,11 @@ export default function Home() {
 
   const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to'>('main');
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    setUser(null);
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
       {/* Header */}
@@ -154,9 +159,14 @@ export default function Home() {
             <button onClick={() => setOpenSection('how-to')} className="text-gray-500 hover:text-primary transition-colors">How to Use</button>
             <button onClick={() => setOpenSection('faq')} className="text-gray-500 hover:text-primary transition-colors">FAQ</button>
             {user ? (
-              <div className="flex items-center space-x-2 text-primary font-medium">
-                <UserIcon className="w-5 h-5" />
-                <span>{user.email.split('@')[0]}</span>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-primary font-medium">
+                  <UserIcon className="w-5 h-5" />
+                  <span>{user.email.split('@')[0]}</span>
+                </div>
+                <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-400 hover:text-red-500">
+                  Logout
+                </Button>
               </div>
             ) : (
               <Button variant="outline" size="sm" onClick={() => setIsAuthModalOpen(true)}>Sign In</Button>
