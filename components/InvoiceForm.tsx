@@ -71,13 +71,13 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
         clientAddress: '',
         clientEmail: '',
         items: [{ id: '1', description: '', quantity: 1, unitPrice: 0 }],
-        vatRate: 15, // Default VAT for Ethiopia
+        vatRate: 0,
         invoiceNumber: '',
         logo: undefined,
         logoPosition: 'left',
         logoSize: 100,
         template: 'modern',
-        currency: 'ETB',
+        currency: 'USD',
         language: 'en',
         dueDate: '',
         poNumber: '',
@@ -88,6 +88,7 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
         showQRCode: false,
         bankDetails: '',
         terms: '',
+        pdfPassword: '',
     });
 
     const [history, setHistory] = useState<InvoiceData[]>([]);
@@ -228,13 +229,12 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
                             name="businessTIN"
                             value={data.businessTIN}
                             onChange={handleInputChange}
-                            placeholder="1234567890"
-                            className={data.businessTIN && !/^\d{10}$/.test(data.businessTIN.replace(/\s/g, '')) ? 'border-orange-300' : ''}
+                            placeholder="Tax ID / Registration Number"
                         />
                     </div>
                     <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="businessAddress">Address</Label>
-                        <Input id="businessAddress" name="businessAddress" value={data.businessAddress} onChange={handleInputChange} placeholder="City, Sub-city, Woreda, Ethiopia" />
+                        <Input id="businessAddress" name="businessAddress" value={data.businessAddress} onChange={handleInputChange} placeholder="City, State, Country" />
                     </div>
                 </div>
             </Card>
@@ -510,7 +510,7 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
                             name="bankName"
                             value={data.bankName}
                             onChange={handleInputChange}
-                            placeholder="e.g. CBE, Telebirr, Abyssinia"
+                            placeholder="e.g. PayPal, Wise, Bank Name"
                         />
                     </div>
                     <div className="space-y-2">
@@ -544,16 +544,6 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
                     <h3 className="text-lg font-semibold">Notes & Terms</h3>
                 </div>
                 <div className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="bankDetails">Bank Details</Label>
-                        <textarea
-                            id="bankDetails"
-                            className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                            placeholder="CBE / Bank of Abyssinia, Account Number..."
-                            value={data.bankDetails}
-                            onChange={(e) => setData(prev => ({ ...prev, bankDetails: e.target.value }))}
-                        />
-                    </div>
                     <div className="space-y-2">
                         <Label htmlFor="notes">Notes</Label>
                         <textarea
@@ -607,7 +597,7 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
                             className="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary"
                         />
                         <Label htmlFor="showPrivacyConsent" className="text-sm font-medium cursor-pointer">
-                            Enable Data Privacy Opt-out (GDPR/Ethiopian Law)
+                            Enable Data Privacy Opt-out (GDPR Compliance)
                         </Label>
                     </div>
                 </div>

@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { X, Mail, Lock, User, Github, Shield } from 'lucide-react';
+import { X, Mail, Lock, User, Github, Shield, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 interface AuthModalProps {
     isOpen: boolean;
@@ -18,45 +18,98 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    useEffect(() => {
+        if (!isOpen) {
+            setError('');
+            setSuccess('');
+        }
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate successful auth
-        onLogin({ email });
-        onClose();
+        setError('');
+        setSuccess('');
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+        if (isLogin) {
+            const user = users.find((u: any) => u.email === email && u.password === password);
+            if (user) {
+                setSuccess('Welcome back! Logging in...');
+                setTimeout(() => {
+                    onLogin({ email });
+                    onClose();
+                }, 1000);
+            } else {
+                setError('Invalid email or password. Please sign up if you haven\'t created an account yet.');
+            }
+        } else {
+            const existingUser = users.find((u: any) => u.email === email);
+            if (existingUser) {
+                setError('An account with this email already exists. Please sign in.');
+            } else {
+                const newUser = { name, email, password };
+                localStorage.setItem('users', JSON.stringify([...users, newUser]));
+                setSuccess('Account created successfully! You can now sign in.');
+                setTimeout(() => {
+                    setIsLogin(true);
+                    setSuccess('');
+                }, 1500);
+            }
+        }
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-300">
-            <Card className="w-full max-w-md relative bg-white/95 border-none shadow-2xl overflow-hidden">
-                <div className="absolute top-4 right-4 z-10">
-                    <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-gray-100">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-in fade-in duration-500">
+            <Card className="w-full max-w-md relative bg-white/95 border-none shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden rounded-3xl transition-all duration-300">
+                <div className="absolute top-6 right-6 z-10">
+                    <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-gray-100/80">
                         <X className="w-5 h-5" />
                     </Button>
                 </div>
 
-                <div className="p-8">
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-black text-primary tracking-tight mb-2">
-                            {isLogin ? 'Welcome Back' : 'Create Account'}
+                <div className="p-10">
+                    <div className="text-center mb-10">
+                        <div className="inline-block p-3 rounded-2xl bg-primary/10 mb-6">
+                            <Shield className="w-8 h-8 text-primary" />
+                        </div>
+                        <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-3">
+                            {isLogin ? 'Welcome Back' : 'Join InvoiceGen'}
                         </h2>
-                        <p className="text-gray-500 text-sm">
-                            {isLogin ? 'Sign in to download and save your invoices' : 'Join thousands of Ethiopian freelancers'}
+                        <p className="text-gray-500 text-sm font-medium">
+                            {isLogin ? 'Sign in to access your dashboard' : 'Start creating professional invoices today'}
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    {error && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                            <AlertCircle className="w-5 h-5 shrink-0" />
+                            <span>{error}</span>
+                        </div>
+                    )}
+
+                    {success && (
+                        <div className="mb-6 p-4 bg-green-50 border border-green-100 text-green-600 text-sm rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                            <CheckCircle2 className="w-5 h-5 shrink-0" />
+                            <span>{success}</span>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         {!isLogin && (
                             <div className="space-y-2">
-                                <Label htmlFor="name">Full Name</Label>
+                                <Label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-gray-400">Full Name</Label>
                                 <div className="relative">
-                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                                     <Input
                                         id="name"
-                                        placeholder="Mulugeta Kebede"
-                                        className="pl-10 h-11"
+                                        placeholder="John Doe"
+                                        className="pl-12 h-14 rounded-xl border-gray-100 bg-gray-50/50 focus:bg-white transition-all shadow-sm"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
@@ -66,14 +119,14 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                         )}
 
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email Address</Label>
+                            <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-gray-400">Email Address</Label>
                             <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="name@company.com"
-                                    className="pl-10 h-11"
+                                    placeholder="john@example.com"
+                                    className="pl-12 h-14 rounded-xl border-gray-100 bg-gray-50/50 focus:bg-white transition-all shadow-sm"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -82,14 +135,14 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-gray-400">Password</Label>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                                 <Input
                                     id="password"
                                     type="password"
                                     placeholder="••••••••"
-                                    className="pl-10 h-11"
+                                    className="pl-12 h-14 rounded-xl border-gray-100 bg-gray-50/50 focus:bg-white transition-all shadow-sm"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
@@ -97,38 +150,23 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                             </div>
                         </div>
 
-                        {/* Captcha Placeholder */}
-                        {!isLogin && (
-                            <div className="bg-gray-50 border border-gray-100 rounded-lg p-3 flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                                    </div>
-                                    <span className="text-sm text-gray-600">I'm not a robot</span>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <Shield className="w-5 h-5 text-blue-500" />
-                                    <span className="text-[8px] text-gray-400 font-bold uppercase">reCAPTCHA</span>
-                                </div>
-                            </div>
-                        )}
-
-                        <Button type="submit" className="w-full h-11 text-base font-bold shadow-lg shadow-primary/20 mt-2">
-                            {isLogin ? 'Sign In' : 'Create Account'}
+                        <Button type="submit" className="w-full h-14 text-base font-bold rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all mt-4">
+                            {isLogin ? 'Sign In' : 'Create Free Account'}
                         </Button>
                     </form>
 
-                    <div className="relative my-8">
+                    <div className="relative my-10">
                         <div className="absolute inset-0 flex items-center">
                             <span className="w-full border-t border-gray-100"></span>
                         </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-white px-2 text-gray-400">Or continue with</span>
+                        <div className="relative flex justify-center text-[10px] uppercase tracking-widest font-bold">
+                            <span className="bg-white px-4 text-gray-400">Or connect with</span>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <Button variant="outline" className="h-11 font-semibold">
-                            <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                        <Button variant="outline" className="h-12 font-bold rounded-xl border-gray-100 hover:bg-gray-50 transition-colors">
+                            <svg className="w-4 h-4 mr-3" viewBox="0 0 24 24">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
                                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.27.81-.57z" fill="#FBBC05" />
@@ -136,21 +174,25 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                             </svg>
                             Google
                         </Button>
-                        <Button variant="outline" className="h-11 font-semibold">
-                            <Github className="w-4 h-4 mr-2" />
+                        <Button variant="outline" className="h-12 font-bold rounded-xl border-gray-100 hover:bg-gray-50 transition-colors">
+                            <Github className="w-4 h-4 mr-3" />
                             GitHub
                         </Button>
                     </div>
 
-                    <div className="mt-8 text-center text-sm">
-                        <span className="text-gray-500">
-                            {isLogin ? "Don't have an account?" : "Already have an account?"}
+                    <div className="mt-10 text-center text-sm font-medium">
+                        <span className="text-gray-400">
+                            {isLogin ? "New to InvoiceGen?" : "Already a member?"}
                         </span>{' '}
                         <button
-                            onClick={() => setIsLogin(!isLogin)}
-                            className="text-primary font-bold hover:underline"
+                            onClick={() => {
+                                setIsLogin(!isLogin);
+                                setError('');
+                                setSuccess('');
+                            }}
+                            className="text-primary font-bold hover:underline underline-offset-4"
                         >
-                            {isLogin ? 'Register Now' : 'Sign In'}
+                            {isLogin ? 'Create Account' : 'Sign In instead'}
                         </button>
                     </div>
                 </div>

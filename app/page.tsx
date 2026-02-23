@@ -56,13 +56,13 @@ export default function Home() {
     clientName: '',
     clientAddress: '',
     items: [{ id: '1', description: '', quantity: 1, unitPrice: 0 }],
-    vatRate: 15,
-    invoiceNumber: `${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+    vatRate: 0,
+    invoiceNumber: '',
     logo: undefined,
     logoPosition: 'left',
     logoSize: 100,
     template: 'modern',
-    currency: 'ETB',
+    currency: 'USD',
     language: 'en',
     dueDate: '',
     poNumber: '',
@@ -71,6 +71,13 @@ export default function Home() {
     bankDetails: '',
     terms: '',
   }));
+
+  React.useEffect(() => {
+    setInvoiceData(prev => ({
+      ...prev,
+      invoiceNumber: prev.invoiceNumber || `${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+    }));
+  }, []);
 
   const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
   const [user, setUser] = useState<{ email: string } | null>(null);
@@ -120,9 +127,11 @@ export default function Home() {
       return;
     }
     const subject = `Invoice ${invoiceData.invoiceNumber || ''} from ${invoiceData.businessName || 'Us'}`;
-    const body = `Hello ${invoiceData.clientName || 'Client'},\n\nPlease find the invoice summary below:\n\nTotal: ${invoiceData.items.reduce((sum, i) => sum + (i.quantity * i.unitPrice), 0).toLocaleString()} ${invoiceData.currency}\n\n[Note: In a production environment, the PDF would be attached here.]`;
+    const body = `Hello ${invoiceData.clientName || 'Client'},\n\nPlease find the invoice summary below:\n\nTotal: ${invoiceData.items.reduce((sum, i) => sum + (i.quantity * i.unitPrice), 0).toLocaleString()} ${invoiceData.currency}\n\nThank you for using InvoiceGen.`;
     window.location.href = `mailto:${invoiceData.clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
+
+  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to'>('main');
 
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
@@ -133,17 +142,17 @@ export default function Home() {
             <div className="bg-primary p-2 rounded-lg">
               <FileText className="text-white w-6 h-6" />
             </div>
-            <div>
-              <span className="text-xl font-bold tracking-tight">InvoiceGen<span className="text-primary">.et</span></span>
+            <button onClick={() => setOpenSection('main')} className="flex flex-col items-start cursor-pointer">
+              <span className="text-xl font-bold tracking-tight">InvoiceGen</span>
               <div className="flex items-center gap-1 -mt-1">
                 <Crown className="w-3 h-3 text-yellow-500" />
                 <span className="text-[10px] text-yellow-600 font-bold uppercase tracking-wider">Free Tier</span>
               </div>
-            </div>
+            </button>
           </div>
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#how-to-use" className="text-gray-500 hover:text-primary transition-colors">How to Use</a>
-            <a href="#faq" className="text-gray-500 hover:text-primary transition-colors">FAQ</a>
+            <button onClick={() => setOpenSection('how-to')} className="text-gray-500 hover:text-primary transition-colors">How to Use</button>
+            <button onClick={() => setOpenSection('faq')} className="text-gray-500 hover:text-primary transition-colors">FAQ</button>
             {user ? (
               <div className="flex items-center space-x-2 text-primary font-medium">
                 <UserIcon className="w-5 h-5" />
@@ -181,8 +190,8 @@ export default function Home() {
             <div className="space-y-4 text-sm text-gray-600 overflow-y-auto max-h-[60vh] pr-2">
               <p className="font-bold">1. Data Storage</p>
               <p>Your invoice data is temporarily stored in your browser's local storage for your convenience. If you are signed in, data is securely stored in our encrypted database.</p>
-              <p className="font-bold">2. Compliance (Ethiopian Law & GDPR)</p>
-              <p>We comply with Proclamation No. 1205/2020 on Data Protection in Ethiopia. You have the right to export or delete your data at any time.</p>
+              <p className="font-bold">2. Global Compliance (GDPR & International Standards)</p>
+              <p>We adhere to global data protection standards. You have the right to export or delete your data at any time. Our tool is designed to help you stay compliant with your local tax and privacy laws.</p>
               <p className="font-bold">3. PDF Security</p>
               <p>Encrypted PDFs use standard AES-256 bit encryption (available in Premium). Local generation ensures your sensitive financial data never leaves your device unless you choose to save it.</p>
             </div>
@@ -197,94 +206,108 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className="bg-white border-b py-12 md:py-20 mb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-            Free Invoice Generator for <br />
-            <span className="text-primary italic">Ethiopian Freelancers</span>
-          </h1>
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-            Create, manage, and download professional PDF invoices in seconds.
-            Optimized for local VAT and business requirements.
-          </p>
-        </div>
-      </section>
+      {openSection === 'main' && (
+        <section className="bg-white border-b py-12 md:py-20 mb-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+              Free Invoice Generator for <br />
+              <span className="text-primary italic">Freelancers Worldwide</span>
+            </h1>
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+              Create, manage, and download professional PDF invoices in seconds.
+              Optimized for global business requirements.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Main Tool */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mobile Tabs */}
-        <div className="flex md:hidden mb-6 bg-white p-1 rounded-lg border">
-          <button
-            onClick={() => setActiveTab('edit')}
-            className={`flex-1 py-2 rounded-md font-medium transition-colors ${activeTab === 'edit' ? 'bg-primary text-white shadow' : 'text-gray-500'}`}
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => setActiveTab('preview')}
-            className={`flex-1 py-2 rounded-md font-medium transition-colors ${activeTab === 'preview' ? 'bg-primary text-white shadow' : 'text-gray-500'}`}
-          >
-            Preview
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} space-y-6`}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold flex items-center">
-                <Layout className="w-6 h-6 mr-2 text-primary" />
-                Customize Details
-              </h2>
+        {openSection === 'main' ? (
+          <>
+            {/* Mobile Tabs */}
+            <div className="flex md:hidden mb-6 bg-white p-1 rounded-lg border">
+              <button
+                onClick={() => setActiveTab('edit')}
+                className={`flex-1 py-2 rounded-md font-medium transition-colors ${activeTab === 'edit' ? 'bg-primary text-white shadow' : 'text-gray-500'}`}
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => setActiveTab('preview')}
+                className={`flex-1 py-2 rounded-md font-medium transition-colors ${activeTab === 'preview' ? 'bg-primary text-white shadow' : 'text-gray-500'}`}
+              >
+                Preview
+              </button>
             </div>
-            <InvoiceForm onChange={setInvoiceData} />
-          </div>
 
-          <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} space-y-6`}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-              <h2 className="text-2xl font-bold">Preview</h2>
-              <div className="flex flex-wrap gap-2">
-                <Button variant="outline" size="sm" onClick={handleExcelExport} title="Export to Excel">
-                  <TableIcon className="w-4 h-4 mr-2" /> .xlsx
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleImageExport} title="Save as Image">
-                  <ImageIcon className="w-4 h-4 mr-2" /> .png
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleEmailShare} title="Share via Email">
-                  <Mail className="w-4 h-4 mr-2" /> Email
-                </Button>
-                <Button size="lg" className="shadow-lg hover:scale-105 transition-transform" onClick={handleDownload}>
-                  <Download className="w-5 h-5 mr-2" /> Download PDF
-                </Button>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} space-y-6`}>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold flex items-center">
+                    <Layout className="w-6 h-6 mr-2 text-primary" />
+                    Customize Details
+                  </h2>
+                </div>
+                <InvoiceForm onChange={setInvoiceData} />
+              </div>
+
+              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} space-y-6`}>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                  <h2 className="text-2xl font-bold">Preview</h2>
+                  <div className="flex flex-wrap gap-2">
+                    <Button variant="outline" size="sm" onClick={handleExcelExport} title="Export to Excel">
+                      <TableIcon className="w-4 h-4 mr-2" /> .xlsx
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleImageExport} title="Save as Image">
+                      <ImageIcon className="w-4 h-4 mr-2" /> .png
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleEmailShare} title="Share via Email">
+                      <Mail className="w-4 h-4 mr-2" /> Email
+                    </Button>
+                    <Button size="lg" className="shadow-lg hover:scale-105 transition-transform" onClick={handleDownload}>
+                      <Download className="w-5 h-5 mr-2" /> Download PDF
+                    </Button>
+                  </div>
+                </div>
+                <div ref={previewRef} className="bg-white rounded-xl shadow-inner p-2 md:p-4 overflow-hidden">
+                  <InvoicePreview data={invoiceData} />
+                </div>
               </div>
             </div>
-            <div ref={previewRef} className="bg-white rounded-xl shadow-inner p-2 md:p-4 overflow-hidden">
-              <InvoicePreview data={invoiceData} />
+
+            {/* AdSense Placeholder */}
+            <div className="my-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl h-32 flex items-center justify-center text-gray-400">
+              Google AdSense Placeholder
             </div>
+            <AuthModal
+              isOpen={isAuthModalOpen}
+              onClose={() => setIsAuthModalOpen(false)}
+              onLogin={setUser}
+            />
+          </>
+        ) : (
+          <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[60vh] relative animate-in slide-in-from-bottom-4 duration-500">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setOpenSection('main')}
+              className="absolute right-4 top-4"
+            >
+              <X className="w-4 h-4 mr-2" /> Close
+            </Button>
+            <ContentSections activeSection={openSection} />
           </div>
-
-          <AuthModal
-            isOpen={isAuthModalOpen}
-            onClose={() => setIsAuthModalOpen(false)}
-            onLogin={setUser}
-          />
-        </div>
-
-        {/* AdSense Placeholder */}
-        <div className="my-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl h-32 flex items-center justify-center text-gray-400">
-          Google AdSense Placeholder
-        </div>
-
-        {/* Content Sections */}
-        <ContentSections />
+        )}
       </div>
 
       <footer className="mt-20 border-t bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-          <p>© {new Date().getFullYear()} InvoiceGen.et - Built for the Ethiopian Freelance Community</p>
+          <p>© {new Date().getFullYear()} InvoiceGen - Professional Invoices for Freelancers</p>
           <div className="flex justify-center gap-6 mt-4 text-xs">
             <button onClick={() => setShowPrivacyModal(true)} className="hover:text-primary transition-colors">Privacy Policy</button>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-primary transition-colors">GDPR/Ethiopian Law Compliance</a>
+            <button onClick={() => setOpenSection('faq')} className="hover:text-primary transition-colors">Terms of Service</button>
+            <a href="#" className="hover:text-primary transition-colors">Global Compliance</a>
           </div>
         </div>
       </footer>

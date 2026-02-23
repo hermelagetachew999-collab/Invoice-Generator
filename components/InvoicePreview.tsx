@@ -180,10 +180,11 @@ export default function InvoicePreview({ data }: { data: InvoiceData }) {
 
             <div className="mt-12 flex flex-col md:flex-row justify-between gap-12">
                 <div className="flex-1 space-y-6">
-                    {data.bankDetails && (
+                    {data.bankName && data.accountNumber && (
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <h4 className="text-xs font-bold uppercase text-gray-400 mb-2">{t.bankDetails}</h4>
-                            <p className="text-sm whitespace-pre-wrap">{data.bankDetails}</p>
+                            <p className="text-sm">Bank: {data.bankName}</p>
+                            <p className="text-sm">Account: {data.accountNumber}</p>
                         </div>
                     )}
                     {data.notes && (

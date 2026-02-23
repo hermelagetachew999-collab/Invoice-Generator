@@ -73,10 +73,10 @@ export const generatePDF = async (data: InvoiceData) => {
     // Metadata Optimization
     doc.setProperties({
         title: `Invoice ${data.invoiceNumber || ''}`,
-        subject: 'Generated Invoice by InvoiceGen.et',
-        author: data.businessName || 'InvoiceGen.et',
-        keywords: 'invoice, ethiopia, bill, freelancer',
-        creator: 'InvoiceGen.et'
+        subject: 'Generated Invoice by InvoiceGen',
+        author: data.businessName || 'InvoiceGen',
+        keywords: 'invoice, bill, freelancer, professional invoice',
+        creator: 'InvoiceGen'
     });
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -313,12 +313,12 @@ export const generatePDF = async (data: InvoiceData) => {
     // Bank Details, Notes, Terms
     currentY += 20;
     const footerWidth = (pageWidth - margin * 2) * 0.6;
-    if (data.bankDetails) {
+    if (data.bankName && data.accountNumber) {
         doc.setFontSize(9);
         doc.setTextColor(150);
         doc.text(t.bankDetails.toUpperCase(), isRTL ? pageWidth - margin : margin, currentY, { align: isRTL ? "right" : "left" });
         doc.setTextColor(50);
-        const bankLines = doc.splitTextToSize(data.bankDetails, footerWidth);
+        const bankLines = [`Bank: ${data.bankName}`, `Account: ${data.accountNumber}`];
         doc.text(bankLines, isRTL ? pageWidth - margin : margin, currentY + 5, { align: isRTL ? "right" : "left" });
         currentY += (bankLines.length * 4) + 10;
     }
