@@ -366,37 +366,7 @@ export default function Home() {
         )}
       </header>
 
-      {/* Privacy Policy Modal */}
-      {showPrivacyModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl relative">
-            <button
-              onClick={() => setShowPrivacyModal(false)}
-              className="absolute right-4 top-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-3 mb-6">
-              <Shield className="w-8 h-8 text-primary" />
-              <h2 className="text-2xl font-bold">Privacy & Legal</h2>
-            </div>
-            <div className="space-y-4 text-sm text-gray-600 overflow-y-auto max-h-[60vh] pr-2">
-              <p className="font-bold">1. Data Storage</p>
-              <p>Your invoice data is temporarily stored in your browser's local storage for your convenience. If you are signed in, data is securely stored in our encrypted database.</p>
-              <p className="font-bold">2. Global Compliance (GDPR & International Standards)</p>
-              <p>We adhere to global data protection standards. You have the right to export or delete your data at any time. Our tool is designed to help you stay compliant with your local tax and privacy laws.</p>
-              <p className="font-bold">3. PDF Security</p>
-              <p>Encrypted PDFs use standard AES-256 bit encryption (available in Premium). Local generation ensures your sensitive financial data never leaves your device unless you choose to save it.</p>
-            </div>
-            <Button
-              className="w-full mt-8"
-              onClick={() => setShowPrivacyModal(false)}
-            >
-              I Understand
-            </Button>
-          </div>
-        </div>
-      )}
+
 
       {/* Hero Section */}
       {openSection === 'main' && (
