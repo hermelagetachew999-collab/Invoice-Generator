@@ -5,7 +5,7 @@ import InvoiceForm from '@/components/InvoiceForm';
 import InvoicePreview from '@/components/InvoicePreview';
 import ContentSections from '@/components/ContentSections';
 import { Button } from '@/components/ui/button';
-import { Download, FileText, Layout, User as UserIcon, Table as TableIcon, Image as ImageIcon, Mail, Shield, Crown, X, Share2, Copy, Link as LinkIcon, Facebook, Linkedin, Twitter } from 'lucide-react';
+import { Download, FileText, Layout, User as UserIcon, Table as TableIcon, Image as ImageIcon, Mail, Shield, Crown, X, Share2, Copy, Link as LinkIcon, Facebook, Linkedin, Twitter, ChevronDown, Menu } from 'lucide-react';
 import { generatePDF } from '@/lib/generatePDF';
 import AuthModal from '@/components/AuthModal';
 import * as XLSX from 'xlsx';
@@ -162,6 +162,18 @@ export default function Home() {
 
   const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to' | 'terms' | 'about' | 'contact'>('main');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
+
+  // Close desktop menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isDesktopMenuOpen) {
+        setIsDesktopMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isDesktopMenuOpen]);
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -194,12 +206,45 @@ export default function Home() {
             </button>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => { setOpenSection('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">Invoice Tool</button>
-            <button onClick={() => { setOpenSection('how-to'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">How to Use</button>
-            <button onClick={() => { setOpenSection('faq'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">Help & FAQ</button>
-            <button onClick={() => { setOpenSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">About Us</button>
-            <button onClick={() => { setOpenSection('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">Contact Support</button>
+          <nav className="hidden md:flex items-center space-x-6">
+            <div className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDesktopMenuOpen(!isDesktopMenuOpen);
+                }}
+                className="flex items-center gap-2 text-gray-500 hover:text-primary transition-all text-sm font-semibold bg-gray-50 px-4 py-2 rounded-xl border border-gray-100"
+              >
+                <Menu className="w-4 h-4" />
+                Menu
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDesktopMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isDesktopMenuOpen && (
+                <div className="absolute top-full mt-2 right-0 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 animate-in fade-in zoom-in-95 duration-200">
+                  {[
+                    { id: 'main', label: 'Invoice Tool' },
+                    { id: 'how-to', label: 'How to Use' },
+                    { id: 'faq', label: 'Help & FAQ' },
+                    { id: 'about', label: 'About Us' },
+                    { id: 'contact', label: 'Contact Support' }
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setOpenSection(item.id as any);
+                        setIsDesktopMenuOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-colors font-medium"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <Button
               className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 flex items-center gap-2 px-6"
               onClick={() => setIsAuthModalOpen(true)}

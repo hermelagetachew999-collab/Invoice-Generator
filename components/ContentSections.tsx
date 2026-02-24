@@ -177,7 +177,7 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                     </section>
                 </div>
                 <div className="mt-12 p-6 bg-gray-50 rounded-2xl text-center">
-                    <p className="text-sm text-gray-500">Questions about our terms? Contact us at legal@invoicegen.com</p>
+                    <p className="text-sm text-gray-500">Questions about our terms? Contact us at hermelagetachew999@gmail.com</p>
                 </div>
             </div>
         );
@@ -242,7 +242,7 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                             <h3 className="font-bold text-lg">Direct Reach</h3>
                             <div className="flex items-center gap-3 text-gray-600">
                                 <Mail className="w-5 h-5 text-primary" />
-                                <span>support@invoicegen.com</span>
+                                <span>hermelagetachew999@gmail.com</span>
                             </div>
                             <div className="flex items-center gap-3 text-gray-600">
                                 <Globe className="w-5 h-5 text-primary" />
