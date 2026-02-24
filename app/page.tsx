@@ -200,51 +200,13 @@ export default function Home() {
               <div className="flex items-center gap-1 -mt-1">
                 <Crown className="w-3 h-3 text-yellow-500" />
                 <span className="text-[10px] text-yellow-600 font-bold uppercase tracking-wider">
-                  {user?.tier === 'unlimited' ? 'Unlimited Tier' : user?.tier === 'no-ads' ? 'Pro Tier' : 'Free Tier'}
+                  {user?.tier === 'unlimited' ? 'Pro Tier' : user?.tier === 'no-ads' ? 'Pro Tier' : 'Free Tier'}
                 </span>
               </div>
             </button>
           </div>
 
           <nav className="hidden md:flex items-center space-x-6">
-            <div className="relative">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsDesktopMenuOpen(!isDesktopMenuOpen);
-                }}
-                className="flex items-center gap-2 text-gray-500 hover:text-primary transition-all text-sm font-semibold bg-gray-50 px-4 py-2 rounded-xl border border-gray-100"
-              >
-                <Menu className="w-4 h-4" />
-                Menu
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDesktopMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isDesktopMenuOpen && (
-                <div className="absolute top-full mt-2 right-0 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 animate-in fade-in zoom-in-95 duration-200">
-                  {[
-                    { id: 'main', label: 'Invoice Tool' },
-                    { id: 'how-to', label: 'How to Use' },
-                    { id: 'faq', label: 'Help & FAQ' },
-                    { id: 'about', label: 'About Us' },
-                    { id: 'contact', label: 'Contact Support' }
-                  ].map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        setOpenSection(item.id as any);
-                        setIsDesktopMenuOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-colors font-medium"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
             <Button
               className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 flex items-center gap-2 px-6"
               onClick={() => setIsAuthModalOpen(true)}
@@ -252,11 +214,67 @@ export default function Home() {
               <Crown className="w-4 h-4" />
               Upgrade
             </Button>
-            {user && (
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-400 hover:text-red-500">
-                Log Out
-              </Button>
-            )}
+
+            <div className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDesktopMenuOpen(!isDesktopMenuOpen);
+                }}
+                className="flex items-center justify-center w-10 h-10 text-gray-500 hover:text-primary transition-all bg-gray-50 rounded-xl border border-gray-100"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+
+              {isDesktopMenuOpen && (
+                <div className="absolute top-full mt-2 right-0 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                  {user && (
+                    <div className="p-4 bg-gray-50/50 border-b border-gray-100 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 text-primary">
+                        <UserIcon className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 overflow-hidden">
+                        <div className="text-sm font-bold text-gray-900 truncate">{user.name || 'User'}</div>
+                        <div className="text-[10px] text-gray-500 truncate">{user.email}</div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="p-2 space-y-1">
+                    {[
+                      { id: 'main', label: 'Invoice Tool' },
+                      { id: 'how-to', label: 'How to Use' },
+                      { id: 'faq', label: 'Help & FAQ' },
+                      { id: 'about', label: 'About Us' },
+                      { id: 'contact', label: 'Contact Support' }
+                    ].map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          setOpenSection(item.id as any);
+                          setIsDesktopMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-colors font-medium"
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+
+                    {user && (
+                      <div className="pt-1 mt-1 border-t border-gray-100">
+                        <button
+                          onClick={handleLogout}
+                          className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors font-medium"
+                        >
+                          Log Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
 
           <div className="flex md:hidden items-center gap-2">

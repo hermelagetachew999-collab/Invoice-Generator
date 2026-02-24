@@ -5,9 +5,9 @@ import "./globals.css";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Free Unlimited Invoice Generator | Professional PDF Invoices for Freelancers",
-  description: "Generate unlimited professional PDF invoices for free. Features include VAT/Tax calculation, discount application, multiple templates, and secure sharing. Perfect for freelancers and small businesses worldwide.",
-  keywords: "free invoice generator, unlimited invoices, professional freelance invoices, pdf invoice creator, VAT calculator, tax invoice tool, business invoice sharing",
+  title: "Free Invoice Generator | Professional PDF Invoices for Freelancers",
+  description: "Generate professional PDF invoices for free. Features include VAT/Tax calculation, discount application, multiple templates, and secure sharing. Perfect for freelancers and small businesses worldwide.",
+  keywords: "free invoice generator, professional freelance invoices, pdf invoice creator, VAT calculator, tax invoice tool, business invoice sharing",
 };
 
 export default function RootLayout({
