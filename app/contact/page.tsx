@@ -34,8 +34,8 @@ export default function Contact() {
                     </p>
                 </header>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 flex flex-col justify-between space-y-12">
+                <div className="max-w-2xl mx-auto">
+                    <div className="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 flex flex-col justify-between space-y-12 shadow-sm">
                         <div className="space-y-4">
                             <div className="w-16 h-16 bg-white rounded-3xl shadow-sm flex items-center justify-center text-primary">
                                 <Mail className="w-8 h-8" />
@@ -49,27 +49,6 @@ export default function Contact() {
                         >
                             hermelagetachew999@gmail.com
                         </a>
-                    </div>
-
-                    <div className="bg-gray-900 p-10 rounded-[3rem] text-white flex flex-col justify-between space-y-12">
-                        <div className="space-y-4">
-                            <div className="w-16 h-16 bg-white/10 rounded-3xl flex items-center justify-center text-white">
-                                <Globe className="w-8 h-8" />
-                            </div>
-                            <h2 className="text-3xl font-black">Follow Us</h2>
-                            <p className="text-gray-400 font-medium">Stay updated with the latest features and community news on social media.</p>
-                        </div>
-                        <div className="flex gap-4">
-                            {[
-                                { icon: <Linkedin className="w-6 h-6" />, label: "LinkedIn", href: "#" },
-                                { icon: <Twitter className="w-5 h-5" />, label: "Twitter", href: "#" },
-                                { icon: <Github className="w-6 h-6" />, label: "GitHub", href: "#" }
-                            ].map((social, i) => (
-                                <a key={i} href={social.href} className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all">
-                                    {social.icon}
-                                </a>
-                            ))}
-                        </div>
                     </div>
                 </div>
 
