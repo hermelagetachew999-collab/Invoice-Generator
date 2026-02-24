@@ -5,7 +5,7 @@ import { Card } from './ui/card';
 import { CheckCircle2, Shield, Globe, Zap, Mail, HelpCircle, Layout } from 'lucide-react';
 
 interface ContentSectionsProps {
-    activeSection?: 'faq' | 'how-to' | 'terms' | 'about' | 'contact' | 'main';
+    activeSection?: 'faq' | 'how-to' | 'terms' | 'about' | 'contact' | 'main' | 'learn';
 }
 
 export default function ContentSections({ activeSection = 'main' }: ContentSectionsProps) {
@@ -224,6 +224,164 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                         ))}
                     </div>
                 </div>
+            </div>
+        );
+    }
+
+    if (activeSection === 'learn') {
+        return (
+            <div className="space-y-12 max-w-4xl mx-auto py-12 px-4 sm:px-0">
+                <article className="prose prose-blue max-w-none space-y-12">
+                    <header className="text-center space-y-6 mb-20">
+                        <h1 className="text-4xl sm:text-6xl font-black text-gray-900 leading-tight">Mastering Your Business: The Complete Guide to Invoicing</h1>
+                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">Understanding the foundation of business transactions and how to leverage professional billing to grow your freelance career.</p>
+                        <div className="flex justify-center items-center gap-4 text-sm text-gray-400 font-bold uppercase tracking-widest pt-4">
+                            <span>10 Min Read</span>
+                            <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                            <span>Educational Guide</span>
+                        </div>
+                    </header>
+
+                    <section className="space-y-6">
+                        <h2 className="text-3xl font-bold text-gray-900 border-l-8 border-primary pl-6">What Exactly is an Invoice?</h2>
+                        <div className="text-lg text-gray-600 leading-relaxed space-y-4 font-medium">
+                            <p>
+                                At its most fundamental level, an invoice is a commercial document issued by a seller to a buyer, relating to a sale transaction and indicating the products, quantities, and agreed prices for products or services the seller has provided the buyer. It is more than just a request for payment; it is a legally recognized record of a transaction that establishes an obligation on the part of the purchaser to pay.
+                            </p>
+                            <p>
+                                Unlike a receipt, which is a proof of payment after the fact, an invoice is a request for payment. It serves as a bridge between the completion of work and the transfer of funds. For freelancers and small businesses, the invoice is the official conclusion of a project phase or a delivery, signaling to the client that the contractual obligations have been met and the financial obligation is now active.
+                            </p>
+                            <p>
+                                A professional invoice typically contains several key elements: a unique invoice number, the date of issue, contact information for both parties, a detailed breakdown of services or goods provided, the total amount due, tax information (if applicable), and clear payment terms (such as "Net 30").
+                            </p>
+                        </div>
+                    </section>
+
+                    <section className="space-y-6">
+                        <h2 className="text-3xl font-bold text-gray-900 border-l-8 border-primary pl-6">Why Freelancers Need Invoices (Beyond the Check)</h2>
+                        <div className="text-lg text-gray-600 leading-relaxed space-y-6">
+                            <p>
+                                Many new freelancers mistake invoicing for a mere formality. However, as your business grows, you'll realize that the invoice is one of your most powerful administrative tools.
+                            </p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8">
+                                <div className="space-y-3 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                        <Shield className="w-5 h-5 text-primary" /> Legal Protection
+                                    </h3>
+                                    <p className="text-sm text-gray-500">
+                                        In the event of a payment dispute, an invoice serves as critical evidence of your agreement. It documents exactly what was promised, when it was delivered, and what the agreed price was. Without a paper trail, recovering unpaid fees becomes significantly more difficult in a legal context.
+                                    </p>
+                                </div>
+                                <div className="space-y-3 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                        <Zap className="w-5 h-5 text-primary" /> Financial Tracking
+                                    </h3>
+                                    <p className="text-sm text-gray-500">
+                                        Invoices are the heartbeat of your bookkeeping. They allow you to track your revenue, identify your most profitable clients, and forecast your cash flow. By maintaining a rigorous invoicing system, you gain a clear picture of your business's health at any given moment.
+                                    </p>
+                                </div>
+                                <div className="space-y-3 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                        <Globe className="w-5 h-5 text-primary" /> Tax Compliance
+                                    </h3>
+                                    <p className="text-sm text-gray-500">
+                                        When tax season arrives, your stack of invoices becomes your best friend. Most tax authorities require detailed records of all income. Properly formatted invoices with sequential numbering and clear tax breakdowns ensure that you stay compliant and avoid costly audits.
+                                    </p>
+                                </div>
+                                <div className="space-y-3 bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                        <CheckCircle2 className="w-5 h-5 text-primary" /> Professional Identity
+                                    </h3>
+                                    <p className="text-sm text-gray-500">
+                                        An invoice is often the last point of contact a client has with your brand for a specific project. A well-designed, clear, and professional document reinforces your brand identity and leaves a lasting impression of competence and reliability.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="space-y-8 bg-primary/5 p-8 sm:p-12 rounded-[3rem] border border-primary/10">
+                        <h2 className="text-3xl font-bold text-gray-900">The Benefits of Professional Invoicing</h2>
+                        <p className="text-lg text-gray-600 italic leading-relaxed">
+                            "A professional invoice isn't just about asking for money; it's about respecting your own work and your client's time."
+                        </p>
+
+                        <div className="space-y-8 mt-8">
+                            <div className="flex gap-6">
+                                <div className="hidden sm:flex shrink-0 w-12 h-12 bg-white rounded-2xl shadow-sm items-center justify-center font-black text-primary">01</div>
+                                <div className="space-y-2">
+                                    <h4 className="font-bold text-xl">Faster Payment Cycles</h4>
+                                    <p className="text-gray-600">Ambiguity is the enemy of fast payment. When a client receives a confusing invoice, they set it aside "for later" to figure out. A professional invoice with clear totals, itemized services, and explicit payment instructions removes all friction, leading to significantly faster turnarounds.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-6">
+                                <div className="hidden sm:flex shrink-0 w-12 h-12 bg-white rounded-2xl shadow-sm items-center justify-center font-black text-primary">02</div>
+                                <div className="space-y-2">
+                                    <h4 className="font-bold text-xl">Enhanced Client Trust</h4>
+                                    <p className="text-gray-600">Clients feel more secure when they see a structured billing process. It shows that you run a real business, not a hobby. This trust often leads to higher retention rates and more frequent referrals, as clients can vouch for your professional administrative practices.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-6">
+                                <div className="hidden sm:flex shrink-0 w-12 h-12 bg-white rounded-2xl shadow-sm items-center justify-center font-black text-primary">03</div>
+                                <div className="space-y-2">
+                                    <h4 className="font-bold text-xl">Operational Scalability</h4>
+                                    <p className="text-gray-600">As you move from one client to ten, or twenty, a "scratch-pad" approach to billing will collapse. Investing in a professional invoicing system early establishes the infrastructure you need to scale your business without drowning in administrative debt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="space-y-6">
+                        <h2 className="text-3xl font-bold text-gray-900 border-l-8 border-primary pl-6">How InvoiceGen Elevates Your Business</h2>
+                        <div className="text-lg text-gray-600 leading-relaxed space-y-4">
+                            <p>
+                                We built InvoiceGen specifically to solve the "Administrative Friction" that plagues freelancers. Most invoicing software is either too complex (designed for large corporations) or too limited (basic spreadsheets). InvoiceGen hits the sweet spot: powerful enough to handle complex billing, yet simple enough to use in under 60 seconds.
+                            </p>
+                            <p>
+                                <strong>Speed & Real-time Feedback:</strong> Our live preview engine ensures you see exactly what the client sees as you type. No more "download and check" loops. This instant feedback loop increases accuracy and saves hours of administrative time every month.
+                            </p>
+                            <p>
+                                <strong>Global by Design:</strong> We understand that the modern freelancer works across borders. That's why we've integrated native support for multiple languages including Amharic and Arabic, and custom currency symbols. Whether you're billing a client in Addis Ababa or Amsterdam, your invoices look local and professional.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section className="space-y-8 bg-gray-900 text-white p-8 sm:p-12 rounded-[3rem] shadow-2xl">
+                        <h2 className="text-3xl font-bold">Pro Tips for Invoicing Excellence</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div className="space-y-4">
+                                <h4 className="text-primary font-bold text-lg">Set Clear Expectations Early</h4>
+                                <p className="text-gray-400 text-sm leading-relaxed">Never start work without an agreed-upon payment schedule. Mentioning your Net-15 or Net-30 policy in your initial proposal makes the actual invoice feel like a natural part of the process, rather than a surprise demand.</p>
+                            </div>
+                            <div className="space-y-4">
+                                <h4 className="text-primary font-bold text-lg">Invoice Immediately</h4>
+                                <p className="text-gray-400 text-sm leading-relaxed">The "Value Perception" of your work is highest immediately after delivery. The longer you wait to send an invoice, the more the client's memory of the value you provided fades. Aim to send your invoice within 24 hours of project completion.</p>
+                            </div>
+                            <div className="space-y-4">
+                                <h4 className="text-primary font-bold text-lg">Be Granular, Not Vague</h4>
+                                <p className="text-gray-400 text-sm leading-relaxed">Instead of writing "Web Design - $2000", try "UI/UX Design for Homepage and Contact Page - $2000". Granularity reduces questions from the client's accounting department and makes your fee feel earned and justified.</p>
+                            </div>
+                            <div className="space-y-4">
+                                <h4 className="text-primary font-bold text-lg">Automate the Mundane</h4>
+                                <p className="text-gray-400 text-sm leading-relaxed">Use templates to ensure your branding, contact info, and payment instructions are identical every time. This consistency builds a professional image and prevents simple data-entry errors that could delay your payout.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer className="pt-12 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-8">
+                        <div className="space-y-2 text-center sm:text-left">
+                            <h4 className="font-bold text-xl">Ready to get started?</h4>
+                            <p className="text-gray-500">Create your first professional invoice in seconds.</p>
+                        </div>
+                        <button
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className="bg-primary text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+                        >
+                            Open Invoice Tool
+                        </button>
+                    </footer>
+                </article>
             </div>
         );
     }

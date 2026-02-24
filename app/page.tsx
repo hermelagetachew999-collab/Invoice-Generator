@@ -160,7 +160,7 @@ export default function Home() {
     window.location.href = `mailto:${invoiceData.clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
-  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to' | 'terms' | 'about' | 'contact'>('main');
+  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to' | 'terms' | 'about' | 'contact' | 'learn'>('main');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
 
@@ -245,6 +245,7 @@ export default function Home() {
                       { id: 'main', label: 'Invoice Tool' },
                       { id: 'how-to', label: 'How to Use' },
                       { id: 'faq', label: 'Help & FAQ' },
+                      { id: 'learn', label: 'Resources' },
                       { id: 'about', label: 'About Us' },
                       { id: 'contact', label: 'Contact Support' }
                     ].map((item) => (
@@ -315,6 +316,12 @@ export default function Home() {
                 className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
               >
                 Help & FAQ
+              </button>
+              <button
+                onClick={() => { setOpenSection('learn'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                Learn & Resources
               </button>
               <button
                 onClick={() => { setOpenSection('about'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
@@ -447,12 +454,58 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Knowledge Hub Section */}
+            <section className="mt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-4">
+                  <h2 className="text-4xl font-black text-gray-900 tracking-tight">Knowledge Hub</h2>
+                  <p className="text-gray-500 max-w-xl text-lg font-medium">
+                    Expert advice on invoicing, tax compliance, and scaling your freelance business to the next level.
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  className="text-primary font-bold hover:bg-primary/5 group items-center gap-2 hidden md:flex"
+                  onClick={() => { setOpenSection('learn'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                >
+                  View All Resources <ArrowLeft className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {articles.slice(0, 3).map((article) => (
+                  <Link
+                    key={article.slug}
+                    href={`/articles/${article.slug}`}
+                    className="group bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between"
+                  >
+                    <div className="space-y-6">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
+                        {article.category}
+                      </div>
+                      <h3 className="text-2xl font-black text-gray-900 leading-tight group-hover:text-primary transition-colors">
+                        {article.title}
+                      </h3>
+                      <p className="text-gray-500 line-clamp-3 text-base leading-relaxed font-medium">
+                        {article.excerpt}
+                      </p>
+                    </div>
+                    <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between text-xs font-bold text-gray-400 uppercase tracking-widest">
+                      <span>{article.readTime} Read</span>
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-primary" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
             <AuthModal
               isOpen={isAuthModalOpen}
               onClose={() => setIsAuthModalOpen(false)}
               onLogin={setUser}
             />
           </>
+
         ) : (
           <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[60vh] relative animate-in slide-in-from-bottom-4 duration-500">
             <Button
