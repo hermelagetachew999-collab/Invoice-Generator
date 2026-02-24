@@ -87,6 +87,14 @@ export default function Home() {
   React.useEffect(() => {
     const count = parseInt(localStorage.getItem('invoice_downloads') || '0');
     setDownloadCount(count);
+
+    // Check for existing session
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) setUser(data.user);
+      })
+      .catch(err => console.error('Session check failed:', err));
   }, []);
 
   React.useEffect(() => {
@@ -97,14 +105,17 @@ export default function Home() {
   }, []);
 
   const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; name?: string; tier?: string } | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showShareTool, setShowShareTool] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
+  const isPremium = user?.tier === 'unlimited' || user?.tier === 'no-ads';
+  const showAds = !user || user.tier !== 'no-ads';
+
   const handleDownload = async () => {
-    if (downloadCount >= 15 && !user) {
+    if (downloadCount >= 15 && !isPremium) {
       setIsAuthModalOpen(true);
       return;
     }
@@ -173,7 +184,9 @@ export default function Home() {
               <span className="text-xl font-bold tracking-tight">InvoiceGen</span>
               <div className="flex items-center gap-1 -mt-1">
                 <Crown className="w-3 h-3 text-yellow-500" />
-                <span className="text-[10px] text-yellow-600 font-bold uppercase tracking-wider">Free Tier</span>
+                <span className="text-[10px] text-yellow-600 font-bold uppercase tracking-wider">
+                  {user?.tier === 'unlimited' ? 'Unlimited Tier' : user?.tier === 'no-ads' ? 'Pro Tier' : 'Free Tier'}
+                </span>
               </div>
             </button>
           </div>
@@ -189,9 +202,11 @@ export default function Home() {
             </Button>
           </nav>
           <div className="flex md:hidden items-center gap-2">
-            <Button variant="outline" size="sm" className="border-yellow-200 text-yellow-700 bg-yellow-50">
-              Upgrade
-            </Button>
+            {!isPremium && (
+              <Button variant="outline" size="sm" className="border-yellow-200 text-yellow-700 bg-yellow-50" onClick={() => setIsAuthModalOpen(true)}>
+                Upgrade
+              </Button>
+            )}
             <Button variant="default" onClick={handleDownload}>
               <Download className="w-4 h-4 mr-2" /> Download
             </Button>
@@ -243,7 +258,7 @@ export default function Home() {
               Create, manage, and download professional PDF invoices in seconds.
               Optimized for global business requirements.
             </p>
-            <AdPlaceholder label="Top Banner" className="h-20 max-w-4xl mx-auto mt-8" />
+            {showAds && <AdPlaceholder label="Top Banner" className="h-20 max-w-4xl mx-auto mt-8" />}
           </div>
         </section>
       )}
@@ -269,12 +284,14 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              <div className="hidden lg:block lg:col-span-1">
-                <div className="sticky top-24 space-y-4">
-                  <AdPlaceholder label="Sidebar Left 1" className="h-40" />
-                  <AdPlaceholder label="Sidebar Left 2" className="h-40" />
+              {showAds && (
+                <div className="hidden lg:block lg:col-span-1">
+                  <div className="sticky top-24 space-y-4">
+                    <AdPlaceholder label="Sidebar Left 1" className="h-40" />
+                    <AdPlaceholder label="Sidebar Left 2" className="h-40" />
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} lg:col-span-5 space-y-6`}>
                 <div className="flex items-center justify-between mb-4">
@@ -284,7 +301,7 @@ export default function Home() {
                   </h2>
                 </div>
                 <InvoiceForm onChange={setInvoiceData} />
-                <AdPlaceholder label="Middle Content" className="h-24 w-full" />
+                {showAds && <AdPlaceholder label="Middle Content" className="h-24 w-full" />}
               </div>
 
               <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} lg:col-span-5 space-y-6`}>
@@ -362,18 +379,22 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="hidden lg:block lg:col-span-1">
-                <div className="sticky top-24 space-y-4">
-                  <AdPlaceholder label="Sidebar Right 1" className="h-40" />
-                  <AdPlaceholder label="Sidebar Right 2" className="h-40" />
+              {showAds && (
+                <div className="hidden lg:block lg:col-span-1">
+                  <div className="sticky top-24 space-y-4">
+                    <AdPlaceholder label="Sidebar Right 1" className="h-40" />
+                    <AdPlaceholder label="Sidebar Right 2" className="h-40" />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* AdSense Placeholder */}
-            <div className="my-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl h-32 flex items-center justify-center text-gray-400">
-              Google AdSense Placeholder
-            </div>
+            {showAds && (
+              <div className="my-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl h-32 flex items-center justify-center text-gray-400">
+                Google AdSense Placeholder
+              </div>
+            )}
             <AuthModal
               isOpen={isAuthModalOpen}
               onClose={() => setIsAuthModalOpen(false)}
@@ -397,14 +418,14 @@ export default function Home() {
 
       <footer className="mt-20 border-t bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-          <AdPlaceholder label="Above Footer" className="h-24 mb-12" />
+          {showAds && <AdPlaceholder label="Above Footer" className="h-24 mb-12" />}
           <p>© {new Date().getFullYear()} InvoiceGen - Professional Invoices for Freelancers</p>
           <div className="flex justify-center gap-6 mt-4 text-xs">
             <button onClick={() => setShowPrivacyModal(true)} className="hover:text-primary transition-colors">Privacy Policy</button>
             <button onClick={() => setOpenSection('faq')} className="hover:text-primary transition-colors">Terms of Service</button>
             <a href="#" className="hover:text-primary transition-colors">Global Compliance</a>
           </div>
-          <AdPlaceholder label="Footer Internal" className="h-12 mt-8 opacity-50" />
+          {showAds && <AdPlaceholder label="Footer Internal" className="h-12 mt-8 opacity-50" />}
         </div>
       </footer>
     </main >

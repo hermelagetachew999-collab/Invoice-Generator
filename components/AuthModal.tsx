@@ -71,15 +71,30 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
 
         try {
             if (view === 'checkout') {
-                // Simulate payment
-                setSuccess('Processing payment...');
-                setTimeout(() => {
+                // Check if user is logged in
+                const res = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tier: selectedTier?.id }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
                     setSuccess('Payment successful! Welcome to Premium.');
                     setTimeout(() => {
                         onLogin({ email: email || 'premium_user@example.com', name: name || 'Premium User' });
                         onClose();
                     }, 1500);
-                }, 2000);
+                } else {
+                    // If not authenticated, we should probably redirect to login or show error
+                    if (res.status === 401) {
+                        setError('Please sign in first to complete your upgrade.');
+                        setTimeout(() => setView('login'), 2000);
+                    } else {
+                        setError(data.error || 'Payment processing failed. Please try again.');
+                    }
+                }
                 return;
             }
             if (view === 'login') {

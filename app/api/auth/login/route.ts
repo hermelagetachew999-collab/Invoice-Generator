@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import * as jose from 'jose';
 import sql from '@/lib/db';
 
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
         // Set cookie
         const response = NextResponse.json({
             message: 'Login successful',
-            user: { email: user.email, name: user.name }
+            user: { email: user.email, name: user.name, tier: user.tier }
         });
 
         response.cookies.set('auth_token', token, {

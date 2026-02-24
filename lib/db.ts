@@ -2,12 +2,13 @@ import postgres from 'postgres';
 
 const DATABASE_URL = process.env.DATABASE_URL;
 
-if (!DATABASE_URL || DATABASE_URL.includes('username:password')) {
-    console.warn('CRITICAL: DATABASE_URL is not configured correctly in .env');
+if (!DATABASE_URL) {
+    console.error('CRITICAL: DATABASE_URL is missing from environment variables!');
 }
 
-const sql = postgres(DATABASE_URL!, {
+const sql = postgres(DATABASE_URL || '', {
     ssl: { rejectUnauthorized: false },
+    connect_timeout: 10, // 10 seconds
 });
 
 export default sql;
