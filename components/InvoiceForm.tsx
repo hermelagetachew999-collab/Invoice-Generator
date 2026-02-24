@@ -290,7 +290,7 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {history.length > 0 && (
-                            <Button type="button" variant="outline" size="sm" onClick={undo} className="text-orange-600 border-orange-200 bg-orange-50">
+                            <Button type="button" variant="outline" size="sm" onClick={undo} className="text-gray-600 border-gray-200 bg-gray-50 hover:bg-gray-100">
                                 <Undo2 className="w-4 h-4 mr-2" /> Undo
                             </Button>
                         )}

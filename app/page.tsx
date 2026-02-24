@@ -50,11 +50,7 @@ interface InvoiceData {
   terms?: string;
 }
 
-const AdPlaceholder = ({ className, label }: { className?: string; label: string }) => (
-  <div className={`bg-gray-50 border border-dashed border-gray-200 rounded-lg flex items-center justify-center text-[10px] text-gray-400 font-mono uppercase tracking-widest ${className}`}>
-    Ad Placeholder: {label}
-  </div>
-);
+
 
 export default function Home() {
   const [invoiceData, setInvoiceData] = useState<InvoiceData>(() => ({
@@ -164,7 +160,8 @@ export default function Home() {
     window.location.href = `mailto:${invoiceData.clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
-  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to'>('main');
+  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to' | 'terms' | 'about' | 'contact'>('main');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -175,12 +172,18 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50 pb-20">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between font-outfit">
           <div className="flex items-center space-x-2">
             <div className="bg-primary p-2 rounded-lg">
               <FileText className="text-white w-6 h-6" />
             </div>
-            <button onClick={() => setOpenSection('main')} className="flex flex-col items-start cursor-pointer">
+            <button
+              onClick={() => {
+                setOpenSection('main');
+                setIsMobileMenuOpen(false);
+              }}
+              className="flex flex-col items-start cursor-pointer"
+            >
               <span className="text-xl font-bold tracking-tight">InvoiceGen</span>
               <div className="flex items-center gap-1 -mt-1">
                 <Crown className="w-3 h-3 text-yellow-500" />
@@ -190,9 +193,13 @@ export default function Home() {
               </div>
             </button>
           </div>
+
           <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => setOpenSection('how-to')} className="text-gray-500 hover:text-primary transition-colors">How to Use</button>
-            <button onClick={() => setOpenSection('faq')} className="text-gray-500 hover:text-primary transition-colors">FAQ</button>
+            <button onClick={() => { setOpenSection('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">Invoice Tool</button>
+            <button onClick={() => { setOpenSection('how-to'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">How to Use</button>
+            <button onClick={() => { setOpenSection('faq'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">Help & FAQ</button>
+            <button onClick={() => { setOpenSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">About Us</button>
+            <button onClick={() => { setOpenSection('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-500 hover:text-primary transition-colors text-sm font-semibold">Contact Support</button>
             <Button
               className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 flex items-center gap-2 px-6"
               onClick={() => setIsAuthModalOpen(true)}
@@ -200,18 +207,77 @@ export default function Home() {
               <Crown className="w-4 h-4" />
               Upgrade
             </Button>
+            {user && (
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-400 hover:text-red-500">
+                Log Out
+              </Button>
+            )}
           </nav>
+
           <div className="flex md:hidden items-center gap-2">
             {!isPremium && (
               <Button variant="outline" size="sm" className="border-yellow-200 text-yellow-700 bg-yellow-50" onClick={() => setIsAuthModalOpen(true)}>
                 Upgrade
               </Button>
             )}
-            <Button variant="default" onClick={handleDownload}>
-              <Download className="w-4 h-4 mr-2" /> Download
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-600"
+            >
+              <Layout className="w-6 h-6" />
             </Button>
           </div>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-b absolute top-16 left-0 w-full z-40 animate-in slide-in-from-top duration-300">
+            <div className="p-4 space-y-4">
+              <button
+                onClick={() => { setOpenSection('main'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                Invoice Tool
+              </button>
+              <button
+                onClick={() => { setOpenSection('how-to'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                How to Use
+              </button>
+              <button
+                onClick={() => { setOpenSection('faq'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                Help & FAQ
+              </button>
+              <button
+                onClick={() => { setOpenSection('about'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                About Us
+              </button>
+              <button
+                onClick={() => { setOpenSection('contact'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                Contact Support
+              </button>
+              <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-3">
+                <Button onClick={handleDownload} className="w-full">
+                  <Download className="w-4 h-4 mr-2" /> PDF
+                </Button>
+                {user ? (
+                  <Button variant="outline" onClick={handleLogout} className="w-full">Logout</Button>
+                ) : (
+                  <Button variant="outline" onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="w-full border-primary text-primary font-bold">Sign In</Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Privacy Policy Modal */}
@@ -258,7 +324,6 @@ export default function Home() {
               Create, manage, and download professional PDF invoices in seconds.
               Optimized for global business requirements.
             </p>
-            {showAds && <AdPlaceholder label="Top Banner" className="h-20 max-w-4xl mx-auto mt-8" />}
           </div>
         </section>
       )}
@@ -283,17 +348,8 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              {showAds && (
-                <div className="hidden lg:block lg:col-span-1">
-                  <div className="sticky top-24 space-y-4">
-                    <AdPlaceholder label="Sidebar Left 1" className="h-40" />
-                    <AdPlaceholder label="Sidebar Left 2" className="h-40" />
-                  </div>
-                </div>
-              )}
-
-              <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} lg:col-span-5 space-y-6`}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} space-y-6`}>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-bold flex items-center">
                     <Layout className="w-6 h-6 mr-2 text-primary" />
@@ -301,10 +357,9 @@ export default function Home() {
                   </h2>
                 </div>
                 <InvoiceForm onChange={setInvoiceData} />
-                {showAds && <AdPlaceholder label="Middle Content" className="h-24 w-full" />}
               </div>
 
-              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} lg:col-span-5 space-y-6`}>
+              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} space-y-6`}>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                   <h2 className="text-2xl font-bold">Preview</h2>
                   <div className="flex flex-wrap gap-2">
@@ -326,108 +381,78 @@ export default function Home() {
                   <InvoicePreview data={invoiceData} />
                 </div>
 
-                {showShareTool && (
-                  <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mt-8 animate-in zoom-in-95 duration-300">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-primary text-white rounded-lg">
-                        <Share2 className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-bold">Share this Invoice</h3>
-                        <p className="text-xs text-gray-500">Fast and secure ways to send this to your client</p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      <Button
-                        variant="outline"
-                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
-                        onClick={() => {
-                          const url = window.location.href;
-                          navigator.clipboard.writeText(url);
-                          alert('Tool link copied! In a production app, this would be a unique link to this specific invoice.');
-                        }}
-                      >
-                        <Copy className="w-5 h-5 text-gray-600" />
-                        <span className="text-[10px] font-bold uppercase">Copy Link</span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
-                        onClick={() => window.open(`https://wa.me/?text=Here is the invoice for ${invoiceData.clientName}: ${window.location.href}`, '_blank')}
-                      >
-                        <Mail className="w-5 h-5 text-green-500" />
-                        <span className="text-[10px] font-bold uppercase">WhatsApp</span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
-                        onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
-                      >
-                        <Linkedin className="w-5 h-5 text-blue-600" />
-                        <span className="text-[10px] font-bold uppercase">LinkedIn</span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
-                        onClick={() => setShowShareTool(false)}
-                      >
-                        <X className="w-5 h-5 text-gray-400" />
-                        <span className="text-[10px] font-bold uppercase">Dismiss</span>
-                      </Button>
-                    </div>
-                  </div>
-                )}
               </div>
 
-              {showAds && (
-                <div className="hidden lg:block lg:col-span-1">
-                  <div className="sticky top-24 space-y-4">
-                    <AdPlaceholder label="Sidebar Right 1" className="h-40" />
-                    <AdPlaceholder label="Sidebar Right 2" className="h-40" />
+              <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
+                onLogin={setUser}
+              />
+            </>
+            ) : (
+            <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[60vh] relative animate-in slide-in-from-bottom-4 duration-500">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setOpenSection('main')}
+                className="absolute right-4 top-4"
+              >
+                <X className="w-4 h-4 mr-2" /> Close
+              </Button>
+              <ContentSections activeSection={openSection} />
+            </div>
+        )}
+          </div>
+
+        <footer className="mt-20 border-t bg-white py-12 md:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+              <div className="md:col-span-2 space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="bg-primary p-1.5 rounded-lg">
+                    <FileText className="text-white w-5 h-5" />
                   </div>
+                  <span className="text-xl font-bold tracking-tighter">InvoiceGen</span>
                 </div>
-              )}
+                <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
+                  Empowering freelancers and small businesses worldwide with professional invoicing tools. Simple, secure, and globally compliant.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Product</h4>
+                <ul className="space-y-4 text-sm">
+                  <li><button onClick={() => { setOpenSection('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Invoice Tool</button></li>
+                  <li><button onClick={() => { setOpenSection('how-to'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">How to Use</button></li>
+                  <li><button onClick={() => { setOpenSection('faq'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Help & FAQ</button></li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Company</h4>
+                <ul className="space-y-4 text-sm">
+                  <li><button onClick={() => { setOpenSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">About Us</button></li>
+                  <li><button onClick={() => { setOpenSection('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Contact Support</button></li>
+                  <li><button onClick={() => { setOpenSection('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Terms of Service</button></li>
+                  <li><button onClick={() => { setShowPrivacyModal(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Privacy Policy</button></li>
+                </ul>
+              </div>
             </div>
 
-            {/* AdSense Placeholder */}
-            {showAds && (
-              <div className="my-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl h-32 flex items-center justify-center text-gray-400">
-                Google AdSense Placeholder
+            <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
+              <p className="text-xs text-gray-400 font-medium tracking-tight italic">
+                © {new Date().getFullYear()} InvoiceGen. Built for the modern workforce. HTTPS Secured.
+              </p>
+              <div className="flex items-center gap-6 text-gray-400">
+                <Shield className="w-5 h-5 opacity-50" />
+                <div className="text-[10px] font-bold uppercase tracking-widest">Global Compliance V3.2</div>
               </div>
-            )}
-            <AuthModal
-              isOpen={isAuthModalOpen}
-              onClose={() => setIsAuthModalOpen(false)}
-              onLogin={setUser}
-            />
-          </>
-        ) : (
-          <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[60vh] relative animate-in slide-in-from-bottom-4 duration-500">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setOpenSection('main')}
-              className="absolute right-4 top-4"
-            >
-              <X className="w-4 h-4 mr-2" /> Close
-            </Button>
-            <ContentSections activeSection={openSection} />
-          </div>
-        )}
-      </div>
+            </div>
 
-      <footer className="mt-20 border-t bg-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-          {showAds && <AdPlaceholder label="Above Footer" className="h-24 mb-12" />}
-          <p>© {new Date().getFullYear()} InvoiceGen - Professional Invoices for Freelancers</p>
-          <div className="flex justify-center gap-6 mt-4 text-xs">
-            <button onClick={() => setShowPrivacyModal(true)} className="hover:text-primary transition-colors">Privacy Policy</button>
-            <button onClick={() => setOpenSection('faq')} className="hover:text-primary transition-colors">Terms of Service</button>
-            <a href="#" className="hover:text-primary transition-colors">Global Compliance</a>
           </div>
-          {showAds && <AdPlaceholder label="Footer Internal" className="h-12 mt-8 opacity-50" />}
-        </div>
-      </footer>
+        </footer>
     </main >
   );
 }
