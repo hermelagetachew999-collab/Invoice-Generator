@@ -189,7 +189,12 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-in fade-in duration-500 overflow-y-auto">
+        <div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-in fade-in duration-500 overflow-y-auto"
+            onClick={(e) => {
+                if (e.target === e.currentTarget) onClose();
+            }}
+        >
             <Card className="w-full max-w-md relative bg-white/95 border-none shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden rounded-3xl transition-all duration-300">
                 <div className="absolute top-4 right-4 z-10">
                     <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-gray-100/80">
