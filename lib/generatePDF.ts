@@ -17,6 +17,8 @@ interface InvoiceData {
     clientEmail?: string;
     items: LineItem[];
     vatRate: number;
+    discountType: 'percentage' | 'fixed';
+    discountValue: number;
     invoiceNumber: string;
     logo?: string;
     logoPosition?: 'left' | 'center' | 'right';
@@ -41,21 +43,21 @@ const translations = {
         unitPrice: "Unit Price", amount: "Amount", subtotal: "Subtotal", vat: "VAT",
         total: "Total", thankYou: "Thank you for your business!", tin: "TIN",
         dueDate: "Due Date", poNumber: "PO Number", notes: "Notes",
-        bankDetails: "Bank Details", terms: "Terms & Conditions"
+        bankDetails: "Bank Details", terms: "Terms & Conditions", discount: "Discount"
     },
     am: {
         invoice: "ደረሰኝ", billTo: "ለማን፡", description: "ገለፃ", qty: "ብዛት",
         unitPrice: "የአንዱ ዋጋ", amount: "አጠቃላይ ዋጋ", subtotal: "ንዑስ ድምር", vat: "ተጨማሪ እሴት ታክስ",
         total: "ጠቅላላ ድምር", thankYou: "ስለመረጡን እናመሰግናለን!", tin: "የግብር ከፋይ መለያ ቁጥር",
         dueDate: "መክፈያ ቀን", poNumber: "የግዢ ትዕዛዝ ቁጥር", notes: "ማስታወሻ",
-        bankDetails: "የባንክ ሂሳብ", terms: "ውሎች እና ሁኔታዎች"
+        bankDetails: "የባንክ ሂሳብ", terms: "ውሎች እና ሁኔታዎች", discount: "ቅናሽ"
     },
     ar: {
         invoice: "فاتورة", billTo: "فلترة إلى", description: "الوصف", qty: "الكمية",
         unitPrice: "سعر الوحدة", amount: "المبلغ", subtotal: "المجموع الفرعي", vat: "ضريبة القيمة المضافة",
         total: "الإجمالي", thankYou: "شكراً لتعاملكم معنا!", tin: "الرقم الضريبي",
         dueDate: "تاريخ الاستحقاق", poNumber: "رقم طلب الشراء", notes: "ملاحظات",
-        bankDetails: "تفاصيل البنك", terms: "الشروط والأحكام"
+        bankDetails: "تفاصيل البنك", terms: "الشروط والأحكام", discount: "خصም"
     }
 };
 
@@ -284,8 +286,11 @@ export const generatePDF = async (data: InvoiceData) => {
     });
 
     // Totals
-    const vatAmount = (subtotal * data.vatRate) / 100;
-    const total = subtotal + vatAmount;
+    const discountAmount = data.discountType === 'percentage'
+        ? (subtotal * data.discountValue) / 100
+        : data.discountValue;
+    const vatAmount = ((subtotal - discountAmount) * data.vatRate) / 100;
+    const total = subtotal - discountAmount + vatAmount;
 
     currentY += 10;
     doc.line(pageWidth - 90, currentY, pageWidth - margin, currentY);
@@ -298,6 +303,10 @@ export const generatePDF = async (data: InvoiceData) => {
 
     doc.text(`${t.subtotal}:`, labelX, currentY, { align: alignLabel });
     doc.text(`${subtotal.toLocaleString()} ${data.currency}`, valueX, currentY, { align: alignValue });
+
+    currentY += 7;
+    doc.text(`${t.discount} ${data.discountType === 'percentage' ? `(${data.discountValue}%)` : ''}:`, labelX, currentY, { align: alignLabel });
+    doc.text(`-${discountAmount.toLocaleString()} ${data.currency}`, valueX, currentY, { align: alignValue });
 
     currentY += 7;
     doc.text(`${t.vat} (${data.vatRate}%):`, labelX, currentY, { align: alignLabel });

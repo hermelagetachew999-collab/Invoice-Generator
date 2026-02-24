@@ -42,6 +42,8 @@ interface InvoiceData {
     clientEmail?: string;
     items: LineItem[];
     vatRate: number;
+    discountType: 'percentage' | 'fixed';
+    discountValue: number;
     invoiceNumber: string;
     logo?: string;
     logoPosition?: 'left' | 'center' | 'right';
@@ -72,6 +74,8 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
         clientEmail: '',
         items: [{ id: '1', description: '', quantity: 1, unitPrice: 0 }],
         vatRate: 0,
+        discountType: 'percentage',
+        discountValue: 0,
         invoiceNumber: '',
         logo: undefined,
         logoPosition: 'left',
@@ -604,10 +608,38 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
             </Card>
 
             <Card className="p-6">
-                <div className="flex items-center space-x-4">
-                    <div className="flex-1 space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
                         <Label htmlFor="vatRate">VAT Rate (%)</Label>
-                        <Input id="vatRate" type="number" value={data.vatRate} onChange={(e) => setData(prev => ({ ...prev, vatRate: parseFloat(e.target.value) }))} />
+                        <Input id="vatRate" type="number" value={data.vatRate} onChange={(e) => setData(prev => ({ ...prev, vatRate: parseFloat(e.target.value) || 0 }))} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="flex justify-between">
+                            Discount
+                            <div className="flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setData(prev => ({ ...prev, discountType: 'percentage' }))}
+                                    className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${data.discountType === 'percentage' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}
+                                >
+                                    %
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setData(prev => ({ ...prev, discountType: 'fixed' }))}
+                                    className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${data.discountType === 'fixed' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}
+                                >
+                                    {data.currency}
+                                </button>
+                            </div>
+                        </Label>
+                        <Input
+                            id="discountValue"
+                            type="number"
+                            value={data.discountValue}
+                            onChange={(e) => setData(prev => ({ ...prev, discountValue: parseFloat(e.target.value) || 0 }))}
+                            placeholder={data.discountType === 'percentage' ? '0%' : `0 ${data.currency}`}
+                        />
                     </div>
                 </div>
             </Card>

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Free Invoice Generator for Freelancers Worldwide | InvoiceGen",
-  description: "Create professional PDF invoices with automatic VAT/Tax calculation for your freelance business. Fast, mobile-friendly, and free.",
-  keywords: "invoice generator, freelancer invoice, VAT calculator, tax tools, global business tools, free invoice pdf",
+  title: "Free Unlimited Invoice Generator | Professional PDF Invoices for Freelancers",
+  description: "Generate unlimited professional PDF invoices for free. Features include VAT/Tax calculation, discount application, multiple templates, and secure sharing. Perfect for freelancers and small businesses worldwide.",
+  keywords: "free invoice generator, unlimited invoices, professional freelance invoices, pdf invoice creator, VAT calculator, tax invoice tool, business invoice sharing",
 };
 
 export default function RootLayout({

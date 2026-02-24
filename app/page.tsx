@@ -5,7 +5,7 @@ import InvoiceForm from '@/components/InvoiceForm';
 import InvoicePreview from '@/components/InvoicePreview';
 import ContentSections from '@/components/ContentSections';
 import { Button } from '@/components/ui/button';
-import { Download, FileText, Layout, User as UserIcon, Table as TableIcon, Image as ImageIcon, Mail, Shield, Crown, X } from 'lucide-react';
+import { Download, FileText, Layout, User as UserIcon, Table as TableIcon, Image as ImageIcon, Mail, Shield, Crown, X, Share2, Copy, Link as LinkIcon, Facebook, Linkedin, Twitter } from 'lucide-react';
 import { generatePDF } from '@/lib/generatePDF';
 import AuthModal from '@/components/AuthModal';
 import * as XLSX from 'xlsx';
@@ -27,6 +27,8 @@ interface InvoiceData {
   clientAddress: string;
   items: LineItem[];
   vatRate: number;
+  discountType: 'percentage' | 'fixed';
+  discountValue: number;
   invoiceNumber: string;
   logo?: string;
   logoPosition?: 'left' | 'center' | 'right';
@@ -48,6 +50,12 @@ interface InvoiceData {
   terms?: string;
 }
 
+const AdPlaceholder = ({ className, label }: { className?: string; label: string }) => (
+  <div className={`bg-gray-50 border border-dashed border-gray-200 rounded-lg flex items-center justify-center text-[10px] text-gray-400 font-mono uppercase tracking-widest ${className}`}>
+    Ad Placeholder: {label}
+  </div>
+);
+
 export default function Home() {
   const [invoiceData, setInvoiceData] = useState<InvoiceData>(() => ({
     businessName: '',
@@ -57,6 +65,8 @@ export default function Home() {
     clientAddress: '',
     items: [{ id: '1', description: '', quantity: 1, unitPrice: 0 }],
     vatRate: 0,
+    discountType: 'percentage',
+    discountValue: 0,
     invoiceNumber: '',
     logo: undefined,
     logoPosition: 'left',
@@ -72,6 +82,13 @@ export default function Home() {
     terms: '',
   }));
 
+  const [downloadCount, setDownloadCount] = useState(0);
+
+  React.useEffect(() => {
+    const count = parseInt(localStorage.getItem('invoice_downloads') || '0');
+    setDownloadCount(count);
+  }, []);
+
   React.useEffect(() => {
     setInvoiceData(prev => ({
       ...prev,
@@ -83,14 +100,19 @@ export default function Home() {
   const [user, setUser] = useState<{ email: string } | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showShareTool, setShowShareTool] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
-    if (!user) {
+    if (downloadCount >= 15 && !user) {
       setIsAuthModalOpen(true);
       return;
     }
     await generatePDF(invoiceData);
+    const newCount = downloadCount + 1;
+    setDownloadCount(newCount);
+    localStorage.setItem('invoice_downloads', newCount.toString());
+    setShowShareTool(true);
   };
 
   const handleExcelExport = () => {
@@ -158,19 +180,13 @@ export default function Home() {
           <nav className="hidden md:flex items-center space-x-8">
             <button onClick={() => setOpenSection('how-to')} className="text-gray-500 hover:text-primary transition-colors">How to Use</button>
             <button onClick={() => setOpenSection('faq')} className="text-gray-500 hover:text-primary transition-colors">FAQ</button>
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 text-primary font-medium">
-                  <UserIcon className="w-5 h-5" />
-                  <span>{user.email.split('@')[0]}</span>
-                </div>
-                <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-400 hover:text-red-500">
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <Button variant="outline" size="sm" onClick={() => setIsAuthModalOpen(true)}>Sign In</Button>
-            )}
+            <Button
+              className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 flex items-center gap-2 px-6"
+              onClick={() => setIsAuthModalOpen(true)}
+            >
+              <Crown className="w-4 h-4" />
+              Upgrade
+            </Button>
           </nav>
           <div className="flex md:hidden items-center gap-2">
             <Button variant="outline" size="sm" className="border-yellow-200 text-yellow-700 bg-yellow-50">
@@ -227,6 +243,7 @@ export default function Home() {
               Create, manage, and download professional PDF invoices in seconds.
               Optimized for global business requirements.
             </p>
+            <AdPlaceholder label="Top Banner" className="h-20 max-w-4xl mx-auto mt-8" />
           </div>
         </section>
       )}
@@ -251,8 +268,15 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} space-y-6`}>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+              <div className="hidden lg:block lg:col-span-1">
+                <div className="sticky top-24 space-y-4">
+                  <AdPlaceholder label="Sidebar Left 1" className="h-40" />
+                  <AdPlaceholder label="Sidebar Left 2" className="h-40" />
+                </div>
+              </div>
+
+              <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} lg:col-span-5 space-y-6`}>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-bold flex items-center">
                     <Layout className="w-6 h-6 mr-2 text-primary" />
@@ -260,9 +284,10 @@ export default function Home() {
                   </h2>
                 </div>
                 <InvoiceForm onChange={setInvoiceData} />
+                <AdPlaceholder label="Middle Content" className="h-24 w-full" />
               </div>
 
-              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} space-y-6`}>
+              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} lg:col-span-5 space-y-6`}>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                   <h2 className="text-2xl font-bold">Preview</h2>
                   <div className="flex flex-wrap gap-2">
@@ -282,6 +307,65 @@ export default function Home() {
                 </div>
                 <div ref={previewRef} className="bg-white rounded-xl shadow-inner p-2 md:p-4 overflow-hidden">
                   <InvoicePreview data={invoiceData} />
+                </div>
+
+                {showShareTool && (
+                  <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mt-8 animate-in zoom-in-95 duration-300">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-primary text-white rounded-lg">
+                        <Share2 className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold">Share this Invoice</h3>
+                        <p className="text-xs text-gray-500">Fast and secure ways to send this to your client</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <Button
+                        variant="outline"
+                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
+                        onClick={() => {
+                          const url = window.location.href;
+                          navigator.clipboard.writeText(url);
+                          alert('Tool link copied! In a production app, this would be a unique link to this specific invoice.');
+                        }}
+                      >
+                        <Copy className="w-5 h-5 text-gray-600" />
+                        <span className="text-[10px] font-bold uppercase">Copy Link</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
+                        onClick={() => window.open(`https://wa.me/?text=Here is the invoice for ${invoiceData.clientName}: ${window.location.href}`, '_blank')}
+                      >
+                        <Mail className="w-5 h-5 text-green-500" />
+                        <span className="text-[10px] font-bold uppercase">WhatsApp</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
+                        onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+                      >
+                        <Linkedin className="w-5 h-5 text-blue-600" />
+                        <span className="text-[10px] font-bold uppercase">LinkedIn</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="flex flex-col gap-2 h-auto py-4 rounded-xl hover:bg-white transition-all shadow-sm"
+                        onClick={() => setShowShareTool(false)}
+                      >
+                        <X className="w-5 h-5 text-gray-400" />
+                        <span className="text-[10px] font-bold uppercase">Dismiss</span>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="hidden lg:block lg:col-span-1">
+                <div className="sticky top-24 space-y-4">
+                  <AdPlaceholder label="Sidebar Right 1" className="h-40" />
+                  <AdPlaceholder label="Sidebar Right 2" className="h-40" />
                 </div>
               </div>
             </div>
@@ -313,12 +397,14 @@ export default function Home() {
 
       <footer className="mt-20 border-t bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+          <AdPlaceholder label="Above Footer" className="h-24 mb-12" />
           <p>© {new Date().getFullYear()} InvoiceGen - Professional Invoices for Freelancers</p>
           <div className="flex justify-center gap-6 mt-4 text-xs">
             <button onClick={() => setShowPrivacyModal(true)} className="hover:text-primary transition-colors">Privacy Policy</button>
             <button onClick={() => setOpenSection('faq')} className="hover:text-primary transition-colors">Terms of Service</button>
             <a href="#" className="hover:text-primary transition-colors">Global Compliance</a>
           </div>
+          <AdPlaceholder label="Footer Internal" className="h-12 mt-8 opacity-50" />
         </div>
       </footer>
     </main >

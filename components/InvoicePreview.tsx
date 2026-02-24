@@ -18,6 +18,8 @@ interface InvoiceData {
     clientAddress: string;
     items: LineItem[];
     vatRate: number;
+    discountType: 'percentage' | 'fixed';
+    discountValue: number;
     invoiceNumber: string;
     logo?: string;
     logoPosition?: 'left' | 'center' | 'right';
@@ -45,29 +47,32 @@ const translations = {
         unitPrice: "Unit Price", amount: "Amount", subtotal: "Subtotal", vat: "VAT",
         total: "Total", thankYou: "Thank you for your business!", tin: "TIN",
         dueDate: "Due Date", poNumber: "PO Number", notes: "Notes",
-        bankDetails: "Bank Details", terms: "Terms & Conditions"
+        bankDetails: "Bank Details", terms: "Terms & Conditions", discount: "Discount"
     },
     am: {
         invoice: "ደረሰኝ", billTo: "ለማን፡", description: "ገለፃ", qty: "ብዛት",
         unitPrice: "የአንዱ ዋጋ", amount: "አጠቃላይ ዋጋ", subtotal: "ንዑስ ድምር", vat: "ተጨማሪ እሴት ታክስ",
         total: "ጠቅላላ ድምር", thankYou: "ስለመረጡን እናመሰግናለን!", tin: "የግብር ከፋይ መለያ ቁጥር",
         dueDate: "መክፈያ ቀን", poNumber: "የግዢ ትዕዛዝ ቁጥር", notes: "ማስታወሻ",
-        bankDetails: "የባንክ ሂሳብ", terms: "ውሎች እና ሁኔታዎች"
+        bankDetails: "የባንክ ሂሳብ", terms: "ውሎች እና ሁኔታዎች", discount: "ቅናሽ"
     },
     ar: {
         invoice: "فاتورة", billTo: "فلترة إلى", description: "الوصف", qty: "الكمية",
         unitPrice: "سعر الوحدة", amount: "المبلغ", subtotal: "المجموع الفرعي", vat: "ضريبة القيمة المضافة",
         total: "الإجمالي", thankYou: "شكراً لتعاملكم معنا!", tin: "الرقم الضريبي",
         dueDate: "تاريخ الاستحقاق", poNumber: "رقم طلب الشراء", notes: "ملاحظات",
-        bankDetails: "تفاصيل البنك", terms: "الشروط والأحكام"
+        bankDetails: "تفاصيل البنك", terms: "الشروط والأحكام", discount: "خصም"
     }
 };
 
 export default function InvoicePreview({ data }: { data: InvoiceData }) {
     const t = translations[data.language || 'en'];
     const subtotal = data.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
-    const vatAmount = (subtotal * data.vatRate) / 100;
-    const total = subtotal + vatAmount;
+    const discountAmount = data.discountType === 'percentage'
+        ? (subtotal * data.discountValue) / 100
+        : data.discountValue;
+    const vatAmount = ((subtotal - discountAmount) * data.vatRate) / 100;
+    const total = subtotal - discountAmount + vatAmount;
 
     const renderHeader = () => {
         if (data.template === 'classic') {
@@ -198,6 +203,10 @@ export default function InvoicePreview({ data }: { data: InvoiceData }) {
                     <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">{t.subtotal}</span>
                         <span>{subtotal.toLocaleString()} {data.currency}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b">
+                        <span className="text-gray-600">{t.discount} {data.discountType === 'percentage' ? `(${data.discountValue}%)` : ''}</span>
+                        <span className="text-red-500">-{discountAmount.toLocaleString()} {data.currency}</span>
                     </div>
                     <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">{t.vat} ({data.vatRate}%)</span>

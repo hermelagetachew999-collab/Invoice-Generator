@@ -5,7 +5,7 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { X, Mail, Lock, User, Github, Shield, AlertCircle, CheckCircle2, ChevronLeft, KeyRound } from 'lucide-react';
+import { X, Mail, Lock, User, Github, Shield, AlertCircle, CheckCircle2, ChevronLeft, KeyRound, FileText, Crown } from 'lucide-react';
 
 interface AuthModalProps {
     isOpen: boolean;
@@ -13,7 +13,15 @@ interface AuthModalProps {
     onLogin: (user: { email: string; name?: string }) => void;
 }
 
-type AuthView = 'login' | 'signup' | 'forgot-password' | 'reset-password';
+type AuthView = 'login' | 'signup' | 'forgot-password' | 'reset-password' | 'upgrade' | 'checkout';
+
+interface PricingTier {
+    id: string;
+    name: string;
+    price: string;
+    features: string[];
+    icon: React.ReactNode;
+}
 
 export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) {
     const [view, setView] = useState<AuthView>('login');
@@ -25,13 +33,31 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+    const [selectedTier, setSelectedTier] = useState<PricingTier | null>(null);
+
+    const tiers: PricingTier[] = [
+        {
+            id: 'unlimited',
+            name: 'Unlimited Downloads',
+            price: '$5',
+            features: ['Unlimited PDF Downloads', 'Premium Templates', 'Priority Support'],
+            icon: <FileText className="w-5 h-5 text-blue-500" />
+        },
+        {
+            id: 'no-ads',
+            name: 'Pro (No Ads)',
+            price: '$10',
+            features: ['Remove All Ads', 'Unlimited PDF Downloads', 'Custom Branding', 'QR Code Payments'],
+            icon: <Crown className="w-5 h-5 text-yellow-500" />
+        }
+    ];
 
     useEffect(() => {
         if (!isOpen) {
             setError('');
             setSuccess('');
             setLoading(false);
-            setView('login');
+            setView('upgrade'); // Default to upgrade view
         }
     }, [isOpen]);
 
@@ -44,6 +70,18 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
         setLoading(true);
 
         try {
+            if (view === 'checkout') {
+                // Simulate payment
+                setSuccess('Processing payment...');
+                setTimeout(() => {
+                    setSuccess('Payment successful! Welcome to Premium.');
+                    setTimeout(() => {
+                        onLogin({ email: email || 'premium_user@example.com', name: name || 'Premium User' });
+                        onClose();
+                    }, 1500);
+                }, 2000);
+                return;
+            }
             if (view === 'login') {
                 const res = await fetch('/api/auth/login', {
                     method: 'POST',
@@ -112,10 +150,12 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
 
     const renderHeader = () => {
         const titles: Record<AuthView, { title: string; sub: string }> = {
-            login: { title: 'Welcome Back', sub: 'Sign in to access your dashboard' },
-            signup: { title: 'Join InvoiceGen', sub: 'Start creating professional invoices today' },
+            login: { title: 'Sign In', sub: 'Access your premium features' },
+            signup: { title: 'Create Account', sub: 'Join our premium community' },
             'forgot-password': { title: 'Reset Password', sub: 'Enter your email to receive a recovery code' },
             'reset-password': { title: 'Security Code', sub: 'Check your email for the 6-digit code' },
+            upgrade: { title: 'Upgrade to Premium', sub: 'Choose the plan that fits your needs' },
+            checkout: { title: 'Secure Checkout', sub: `Finalize your ${selectedTier?.name} subscription` },
         };
 
         return (
@@ -142,9 +182,9 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                     </Button>
                 </div>
 
-                {view !== 'login' && view !== 'signup' && (
+                {(view !== 'upgrade') && (
                     <div className="absolute top-4 left-4 z-10">
-                        <Button variant="ghost" size="sm" onClick={() => setView('login')} className="rounded-full flex items-center gap-1 text-gray-500">
+                        <Button variant="ghost" size="sm" onClick={() => setView('upgrade')} className="rounded-full flex items-center gap-1 text-gray-500">
                             <ChevronLeft className="w-4 h-4" /> Back
                         </Button>
                     </div>
@@ -168,6 +208,114 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        {view === 'upgrade' && (
+                            <div className="space-y-4">
+                                <div className="grid gap-4">
+                                    {tiers.map((tier) => (
+                                        <button
+                                            key={tier.id}
+                                            type="button"
+                                            onClick={() => {
+                                                setSelectedTier(tier);
+                                                setView('checkout');
+                                            }}
+                                            className="group relative p-6 text-left border-2 border-gray-100 rounded-2xl hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+                                        >
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div className="p-3 bg-white rounded-xl shadow-sm group-hover:shadow-md transition-shadow">
+                                                    {tier.icon}
+                                                </div>
+                                                <div className="text-right">
+                                                    <span className="text-2xl font-black text-gray-900">{tier.price}</span>
+                                                    <span className="text-sm text-gray-500 font-medium">/mo</span>
+                                                </div>
+                                            </div>
+                                            <h3 className="text-lg font-bold text-gray-900 mb-2">{tier.name}</h3>
+                                            <ul className="space-y-2">
+                                                {tier.features.map((feature, idx) => (
+                                                    <li key={idx} className="flex items-center gap-2 text-xs text-gray-500">
+                                                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                                                        {feature}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="text-center pt-4 border-t border-gray-100 mt-6">
+                                    <p className="text-xs text-gray-400 mb-4">Already have a subscription?</p>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full h-11 rounded-xl border-gray-100 font-bold"
+                                        onClick={() => setView('login')}
+                                    >
+                                        Log In to Account
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'checkout' && (
+                            <div className="space-y-4">
+                                <div className="bg-gray-50 p-4 rounded-xl mb-6">
+                                    <div className="flex justify-between items-center text-sm">
+                                        <span className="text-gray-500">Plan:</span>
+                                        <span className="font-bold text-gray-900">{selectedTier?.name}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-sm mt-2">
+                                        <span className="text-gray-500">Billed monthly:</span>
+                                        <span className="font-bold text-primary">{selectedTier?.price}</span>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <Label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Card Information</Label>
+                                    <div className="relative">
+                                        <Shield className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <Input
+                                            placeholder="Card number"
+                                            className="pl-11 h-12 rounded-xl border-gray-100 bg-gray-50/50"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <Input placeholder="MM / YY" className="h-12 rounded-xl border-gray-100 bg-gray-50/50" required />
+                                        <Input placeholder="CVC" className="h-12 rounded-xl border-gray-100 bg-gray-50/50" required />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <Label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Billing Email</Label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <Input
+                                            type="email"
+                                            placeholder="billing@example.com"
+                                            className="pl-11 h-12 rounded-xl border-gray-100 bg-gray-50/50"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full h-12 text-sm font-bold rounded-xl shadow-lg shadow-primary/15 mt-4"
+                                >
+                                    {loading ? (
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    ) : (
+                                        'Complete Purchase'
+                                    )}
+                                </Button>
+                                <p className="text-[10px] text-center text-gray-400">
+                                    Your payment information is encrypted and secure.
+                                </p>
+                            </div>
+                        )}
+
                         {view === 'signup' && (
                             <div className="space-y-1.5">
                                 <Label htmlFor="name" className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1">Full Name</Label>
