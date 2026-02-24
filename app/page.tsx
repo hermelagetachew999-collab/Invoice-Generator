@@ -382,77 +382,78 @@ export default function Home() {
                 </div>
 
               </div>
-
-              <AuthModal
-                isOpen={isAuthModalOpen}
-                onClose={() => setIsAuthModalOpen(false)}
-                onLogin={setUser}
-              />
-            </>
-            ) : (
-            <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[60vh] relative animate-in slide-in-from-bottom-4 duration-500">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setOpenSection('main')}
-                className="absolute right-4 top-4"
-              >
-                <X className="w-4 h-4 mr-2" /> Close
-              </Button>
-              <ContentSections activeSection={openSection} />
             </div>
+
+            <AuthModal
+              isOpen={isAuthModalOpen}
+              onClose={() => setIsAuthModalOpen(false)}
+              onLogin={setUser}
+            />
+          </>
+        ) : (
+          <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[60vh] relative animate-in slide-in-from-bottom-4 duration-500">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setOpenSection('main')}
+              className="absolute right-4 top-4"
+            >
+              <X className="w-4 h-4 mr-2" /> Close
+            </Button>
+            <ContentSections activeSection={openSection} />
+          </div>
         )}
-          </div>
+      </div>
 
-        <footer className="mt-20 border-t bg-white py-12 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <footer className="mt-20 border-t bg-white py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-              <div className="md:col-span-2 space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="bg-primary p-1.5 rounded-lg">
-                    <FileText className="text-white w-5 h-5" />
-                  </div>
-                  <span className="text-xl font-bold tracking-tighter">InvoiceGen</span>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="md:col-span-2 space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-primary p-1.5 rounded-lg">
+                  <FileText className="text-white w-5 h-5" />
                 </div>
-                <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
-                  Empowering freelancers and small businesses worldwide with professional invoicing tools. Simple, secure, and globally compliant.
-                </p>
+                <span className="text-xl font-bold tracking-tighter">InvoiceGen</span>
               </div>
-
-              <div>
-                <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Product</h4>
-                <ul className="space-y-4 text-sm">
-                  <li><button onClick={() => { setOpenSection('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Invoice Tool</button></li>
-                  <li><button onClick={() => { setOpenSection('how-to'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">How to Use</button></li>
-                  <li><button onClick={() => { setOpenSection('faq'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Help & FAQ</button></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Company</h4>
-                <ul className="space-y-4 text-sm">
-                  <li><button onClick={() => { setOpenSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">About Us</button></li>
-                  <li><button onClick={() => { setOpenSection('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Contact Support</button></li>
-                  <li><button onClick={() => { setOpenSection('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Terms of Service</button></li>
-                  <li><button onClick={() => { setShowPrivacyModal(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Privacy Policy</button></li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
-              <p className="text-xs text-gray-400 font-medium tracking-tight italic">
-                © {new Date().getFullYear()} InvoiceGen. Built for the modern workforce. HTTPS Secured.
+              <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
+                Empowering freelancers and small businesses worldwide with professional invoicing tools. Simple, secure, and globally compliant.
               </p>
-              <div className="flex items-center gap-6 text-gray-400">
-                <Shield className="w-5 h-5 opacity-50" />
-                <div className="text-[10px] font-bold uppercase tracking-widest">Global Compliance V3.2</div>
-              </div>
             </div>
 
+            <div>
+              <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Product</h4>
+              <ul className="space-y-4 text-sm">
+                <li><button onClick={() => { setOpenSection('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Invoice Tool</button></li>
+                <li><button onClick={() => { setOpenSection('how-to'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">How to Use</button></li>
+                <li><button onClick={() => { setOpenSection('faq'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Help & FAQ</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Company</h4>
+              <ul className="space-y-4 text-sm">
+                <li><button onClick={() => { setOpenSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">About Us</button></li>
+                <li><button onClick={() => { setOpenSection('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Contact Support</button></li>
+                <li><button onClick={() => { setOpenSection('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Terms of Service</button></li>
+                <li><button onClick={() => { setShowPrivacyModal(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Privacy Policy</button></li>
+              </ul>
+            </div>
           </div>
-        </footer>
+
+          <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-xs text-gray-400 font-medium tracking-tight italic">
+              © {new Date().getFullYear()} InvoiceGen. Built for the modern workforce. HTTPS Secured.
+            </p>
+            <div className="flex items-center gap-6 text-gray-400">
+              <Shield className="w-5 h-5 opacity-50" />
+              <div className="text-[10px] font-bold uppercase tracking-widest">Global Compliance V3.2</div>
+            </div>
+          </div>
+
+        </div>
+      </footer>
     </main >
   );
 }
