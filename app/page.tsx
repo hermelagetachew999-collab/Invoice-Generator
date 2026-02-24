@@ -105,7 +105,6 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
   const [user, setUser] = useState<{ email: string; name?: string; tier?: string } | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showShareTool, setShowShareTool] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -162,7 +161,7 @@ export default function Home() {
     window.location.href = `mailto:${invoiceData.clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
-  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to' | 'terms' | 'about' | 'contact' | 'learn'>('main');
+  const [openSection, setOpenSection] = useState<'main' | 'faq' | 'how-to' | 'learn'>('main');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
 
@@ -244,24 +243,33 @@ export default function Home() {
 
                   <div className="p-2 space-y-1">
                     {[
-                      { id: 'main', label: 'Invoice Tool' },
-                      { id: 'how-to', label: 'How to Use' },
-                      { id: 'faq', label: 'Help & FAQ' },
-                      { id: 'learn', label: 'Resources' },
-                      { id: 'about', label: 'About Us' },
-                      { id: 'contact', label: 'Contact Support' }
+                      { href: '/privacy-policy', label: 'Privacy Policy' },
+                      { href: '/terms', label: 'Terms of Service' },
+                      { id: 'learn', label: 'Knowledge Hub' },
+                      { href: '/about', label: 'About Us' },
+                      { href: '/contact', label: 'Contact Support' }
                     ].map((item) => (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          setOpenSection(item.id as any);
-                          setIsDesktopMenuOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-colors font-medium"
-                      >
-                        {item.label}
-                      </button>
+                      item.href ? (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-colors font-medium block"
+                        >
+                          {item.label}
+                        </Link>
+                      ) : (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setOpenSection(item.id as any);
+                            setIsDesktopMenuOpen(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-colors font-medium"
+                        >
+                          {item.label}
+                        </button>
+                      )
                     ))}
 
                     {user && (
@@ -319,24 +327,30 @@ export default function Home() {
               >
                 Help & FAQ
               </button>
-              <button
-                onClick={() => { setOpenSection('learn'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
-              >
-                Learn & Resources
-              </button>
-              <button
-                onClick={() => { setOpenSection('about'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              <Link
+                href="/about"
                 className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
               >
                 About Us
-              </button>
-              <button
-                onClick={() => { setOpenSection('contact'); setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              </Link>
+              <Link
+                href="/contact"
                 className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
               >
                 Contact Support
-              </button>
+              </Link>
+              <Link
+                href="/privacy-policy"
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="block w-full text-left px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl font-bold"
+              >
+                Terms of Service
+              </Link>
               <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-3">
                 <Button onClick={handleDownload} className="w-full">
                   <Download className="w-4 h-4 mr-2" /> PDF
@@ -552,10 +566,10 @@ export default function Home() {
             <div>
               <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Company</h4>
               <ul className="space-y-4 text-sm">
-                <li><button onClick={() => { setOpenSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">About Us</button></li>
-                <li><button onClick={() => { setOpenSection('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Contact Support</button></li>
-                <li><button onClick={() => { setOpenSection('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Terms of Service</button></li>
-                <li><button onClick={() => { setShowPrivacyModal(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Privacy Policy</button></li>
+                <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+                <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Support</Link></li>
+                <li><Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
           </div>
