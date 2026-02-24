@@ -97,6 +97,12 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
 
     const [history, setHistory] = useState<InvoiceData[]>([]);
 
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     useEffect(() => {
         onChange(data);
     }, [data, onChange]);
@@ -301,26 +307,53 @@ export default function InvoiceForm({ onChange }: { onChange: (data: InvoiceData
                 </div>
 
                 <div className="space-y-2">
-                    <DndContext
-                        sensors={sensors}
-                        collisionDetection={closestCenter}
-                        onDragEnd={handleDragEnd}
-                        modifiers={[restrictToVerticalAxis]}
-                    >
-                        <SortableContext
-                            items={data.items.map(i => i.id)}
-                            strategy={verticalListSortingStrategy}
+                    {mounted ? (
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                            modifiers={[restrictToVerticalAxis]}
                         >
-                            {data.items.map((item) => (
-                                <SortableItem
-                                    key={item.id}
-                                    item={item}
-                                    onRemove={() => removeItem(item.id)}
-                                    onChange={(field, val) => handleItemChange(item.id, field, val)}
-                                />
-                            ))}
-                        </SortableContext>
-                    </DndContext>
+                            <SortableContext
+                                items={data.items.map(i => i.id)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                {data.items.map((item) => (
+                                    <SortableItem
+                                        key={item.id}
+                                        item={item}
+                                        onRemove={() => removeItem(item.id)}
+                                        onChange={(field, val) => handleItemChange(item.id, field, val)}
+                                    />
+                                ))}
+                            </SortableContext>
+                        </DndContext>
+                    ) : (
+                        data.items.map((item) => (
+                            <div key={item.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-white p-4 rounded-lg border">
+                                <div className="md:col-span-1 flex items-center justify-center pb-2">
+                                    <GripVertical className="w-5 h-5 text-gray-400" />
+                                </div>
+                                <div className="md:col-span-5 space-y-2">
+                                    <Label className="text-[10px] uppercase font-bold text-gray-400">Description</Label>
+                                    <Input value={item.description} readOnly />
+                                </div>
+                                <div className="md:col-span-2 space-y-2">
+                                    <Label className="text-[10px] uppercase font-bold text-gray-400">Qty</Label>
+                                    <Input type="number" value={item.quantity} readOnly />
+                                </div>
+                                <div className="md:col-span-3 space-y-2">
+                                    <Label className="text-[10px] uppercase font-bold text-gray-400">Unit Price</Label>
+                                    <Input type="number" value={item.unitPrice} readOnly />
+                                </div>
+                                <div className="md:col-span-1 flex justify-center pb-1">
+                                    <Button variant="ghost" size="icon" disabled>
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </Card>
 
