@@ -109,17 +109,6 @@ export const generatePDF = async (data: InvoiceData) => {
     // Layout and Header Selection
     if (data.template === 'classic') {
         currentY = 40;
-        if (data.logo) {
-            try {
-                const imgProps = doc.getImageProperties(data.logo);
-                const logoWidth = data.logoSize ? data.logoSize / 4 : 30;
-                const logoHeight = (imgProps.height * logoWidth) / imgProps.width;
-                doc.addImage(data.logo, 'PNG', (pageWidth - logoWidth) / 2, 20, logoWidth, logoHeight);
-                currentY = 25 + logoHeight + 10;
-            } catch (e) {
-                console.error(e);
-            }
-        }
         doc.setFontSize(22);
         doc.setFont("helvetica", "bold");
         doc.text(data.businessName || "Your Company", pageWidth / 2, currentY, { align: "center" });
@@ -141,17 +130,7 @@ export const generatePDF = async (data: InvoiceData) => {
             currentY += 10;
         }
     } else if (data.template === 'minimalist') {
-        if (data.logo) {
-            try {
-                const imgProps = doc.getImageProperties(data.logo);
-                const logoWidth = data.logoSize ? data.logoSize / 5 : 20;
-                const logoHeight = (imgProps.height * logoWidth) / imgProps.width;
-                doc.addImage(data.logo, 'PNG', margin, currentY - 10, logoWidth, logoHeight);
-                currentY += logoHeight + 5;
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        // Minimalist remains at currentY
         doc.setFontSize(28);
         doc.setFont("helvetica", "light");
         doc.setTextColor(150);
@@ -188,22 +167,31 @@ export const generatePDF = async (data: InvoiceData) => {
         doc.setFont("helvetica", "normal");
         doc.setFontSize(10);
         doc.setTextColor(100);
+
+        let businessOffset = 6;
         if (data.slogan) {
             doc.setFontSize(9);
             doc.setFont("helvetica", "italic");
             doc.setTextColor(59, 130, 246);
-            doc.text(data.slogan, pageWidth - margin, currentY + 6, { align: "right" });
-            currentY += 5;
+            doc.text(data.slogan, pageWidth - margin, currentY + businessOffset, { align: "right" });
+            businessOffset += 5;
         }
+
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.setFont("helvetica", "normal");
         const businessAddressLines = doc.splitTextToSize(data.businessAddress || "Your Address", 60);
-        doc.text(businessAddressLines, isRTL ? margin : pageWidth - margin, currentY + 6, { align: isRTL ? "left" : "right" });
+        doc.text(businessAddressLines, isRTL ? margin : pageWidth - margin, currentY + businessOffset, { align: isRTL ? "left" : "right" });
 
         if (data.businessTIN) {
-            doc.text(`${t.tin}: ${data.businessTIN}`, isRTL ? margin : pageWidth - margin, currentY + 6 + (businessAddressLines.length * 5), { align: isRTL ? "left" : "right" });
+            doc.text(`${t.tin}: ${data.businessTIN}`, isRTL ? margin : pageWidth - margin, currentY + businessOffset + (businessAddressLines.length * 5), { align: isRTL ? "left" : "right" });
         }
+
+        // Update currentY for Modern template based on content height
+        currentY += Math.max(15, businessOffset + (businessAddressLines.length * 5) + (data.businessTIN ? 5 : 0));
     }
 
-    const contentStartY = Math.max(currentY + 40, 70);
+    const contentStartY = Math.max(currentY + 15, 60);
 
     // Client Info
     doc.setFontSize(10);
@@ -239,7 +227,7 @@ export const generatePDF = async (data: InvoiceData) => {
     }
 
     // Table Header
-    const tableTop = contentStartY + 35;
+    const tableTop = contentStartY + 25;
     doc.setDrawColor(0);
     doc.setLineWidth(data.template === 'minimalist' ? 0.1 : 0.5);
     doc.line(margin, tableTop, pageWidth - margin, tableTop);
@@ -262,7 +250,7 @@ export const generatePDF = async (data: InvoiceData) => {
 
     // Table Items
     doc.setFont("helvetica", "normal");
-    currentY = tableTop + 20;
+    currentY = tableTop + 18;
     let subtotal = 0;
 
     data.items.forEach((item) => {
@@ -270,6 +258,13 @@ export const generatePDF = async (data: InvoiceData) => {
         subtotal += amount;
 
         const descLines = doc.splitTextToSize(item.description || "Service/Item", 80);
+
+        // Page break check for items
+        if (currentY + Math.max(descLines.length * 5, 8) > pageHeight - 40) {
+            doc.addPage();
+            currentY = margin + 10;
+        }
+
         if (isRTL) {
             doc.text(descLines, pageWidth - margin, currentY, { align: "right" });
             doc.text(item.quantity.toString(), margin + 80, currentY, { align: "left" });
@@ -282,7 +277,7 @@ export const generatePDF = async (data: InvoiceData) => {
             doc.text(`${amount.toLocaleString()} ${data.currency}`, pageWidth - margin, currentY, { align: "right" });
         }
 
-        currentY += Math.max(descLines.length * 5, 10);
+        currentY += Math.max(descLines.length * 5, 8);
     });
 
     // Totals
@@ -292,10 +287,10 @@ export const generatePDF = async (data: InvoiceData) => {
     const vatAmount = ((subtotal - discountAmount) * data.vatRate) / 100;
     const total = subtotal - discountAmount + vatAmount;
 
-    currentY += 10;
+    currentY += 5;
     doc.line(pageWidth - 90, currentY, pageWidth - margin, currentY);
 
-    currentY += 10;
+    currentY += 7;
     const labelX = isRTL ? pageWidth - margin : pageWidth - 90;
     const valueX = isRTL ? margin : pageWidth - margin;
     const alignLabel = isRTL ? "right" : "left";
@@ -304,15 +299,15 @@ export const generatePDF = async (data: InvoiceData) => {
     doc.text(`${t.subtotal}:`, labelX, currentY, { align: alignLabel });
     doc.text(`${subtotal.toLocaleString()} ${data.currency}`, valueX, currentY, { align: alignValue });
 
-    currentY += 7;
+    currentY += 6;
     doc.text(`${t.discount} ${data.discountType === 'percentage' ? `(${data.discountValue}%)` : ''}:`, labelX, currentY, { align: alignLabel });
     doc.text(`-${discountAmount.toLocaleString()} ${data.currency}`, valueX, currentY, { align: alignValue });
 
-    currentY += 7;
+    currentY += 6;
     doc.text(`${t.vat} (${data.vatRate}%):`, labelX, currentY, { align: alignLabel });
     doc.text(`${vatAmount.toLocaleString()} ${data.currency}`, valueX, currentY, { align: alignValue });
 
-    currentY += 10;
+    currentY += 8;
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
     if (data.template === 'modern') doc.setTextColor(59, 130, 246);
@@ -320,7 +315,7 @@ export const generatePDF = async (data: InvoiceData) => {
     doc.text(`${total.toLocaleString()} ${data.currency}`, valueX, currentY, { align: alignValue });
 
     // Bank Details, Notes, Terms
-    currentY += 20;
+    currentY += 10;
     const footerWidth = (pageWidth - margin * 2) * 0.6;
     if (data.bankName && data.accountNumber) {
         doc.setFontSize(9);
@@ -329,7 +324,7 @@ export const generatePDF = async (data: InvoiceData) => {
         doc.setTextColor(50);
         const bankLines = [`Bank: ${data.bankName}`, `Account: ${data.accountNumber}`];
         doc.text(bankLines, isRTL ? pageWidth - margin : margin, currentY + 5, { align: isRTL ? "right" : "left" });
-        currentY += (bankLines.length * 4) + 10;
+        currentY += (bankLines.length * 4) + 6;
     }
     if (data.notes) {
         doc.setFontSize(9);
@@ -338,17 +333,17 @@ export const generatePDF = async (data: InvoiceData) => {
         doc.setTextColor(50);
         const notesLines = doc.splitTextToSize(data.notes, footerWidth);
         doc.text(notesLines, isRTL ? pageWidth - margin : margin, currentY + 5, { align: isRTL ? "right" : "left" });
-        currentY += (notesLines.length * 4) + 10;
+        currentY += (notesLines.length * 4) + 6;
     }
     if (data.terms) {
         doc.setFontSize(8);
         doc.setTextColor(150);
         const termsLabel = t.terms.toUpperCase();
         const termsLines = doc.splitTextToSize(data.terms, pageWidth - margin * 2);
-        const sectionHeight = (termsLines.length * 4) + 15;
+        const sectionHeight = (termsLines.length * 4) + 10;
 
         // Page break check
-        if (currentY + sectionHeight > pageHeight - 30) {
+        if (currentY + sectionHeight > pageHeight - 20) {
             doc.addPage();
             currentY = margin;
         }
@@ -367,25 +362,25 @@ export const generatePDF = async (data: InvoiceData) => {
             const qrDataUrl = await QRCode.toDataURL(qrText);
 
             // Check if we need a new page for QR code
-            if (currentY + 40 > pageHeight - 20) {
+            if (currentY + 30 > pageHeight - 15) {
                 doc.addPage();
                 currentY = margin;
             }
 
-            const qrX = isRTL ? pageWidth - margin - 30 : margin;
-            const textX = isRTL ? pageWidth - margin - 35 : margin + 35;
+            const qrX = isRTL ? pageWidth - margin - 25 : margin;
+            const textX = isRTL ? pageWidth - margin - 30 : margin + 30;
             const textAlign = isRTL ? "right" : "left";
 
-            doc.addImage(qrDataUrl, 'PNG', qrX, currentY, 30, 30);
+            doc.addImage(qrDataUrl, 'PNG', qrX, currentY, 25, 25);
             doc.setFontSize(8);
             doc.setTextColor(100);
-            doc.text(`SCAN TO PAY (${data.bankName || 'TRANSFER'})`, textX, currentY + 10, { align: textAlign });
+            doc.text(`SCAN TO PAY (${data.bankName || 'TRANSFER'})`, textX, currentY + 8, { align: textAlign });
             doc.setFont("helvetica", "bold");
-            doc.text(`${data.accountNumber}`, textX, currentY + 15, { align: textAlign });
+            doc.text(`${data.accountNumber}`, textX, currentY + 12, { align: textAlign });
             doc.setFont("helvetica", "normal");
-            doc.text(`Total Due: ${total.toLocaleString()} ${data.currency}`, textX, currentY + 20, { align: textAlign });
+            doc.text(`Total Due: ${total.toLocaleString()} ${data.currency}`, textX, currentY + 16, { align: textAlign });
 
-            currentY += 35;
+            currentY += 30;
         } catch (err) {
             console.error("QR Code Error:", err);
         }
