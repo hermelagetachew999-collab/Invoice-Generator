@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Card } from './ui/card';
-import { CheckCircle2, Shield, Globe, Zap, Mail, HelpCircle, Layout } from 'lucide-react';
+import { CheckCircle2, Shield, Globe, Zap, Mail, HelpCircle, Layout, MessageSquare } from 'lucide-react';
 
 interface ContentSectionsProps {
     activeSection?: 'faq' | 'how-to' | 'terms' | 'about' | 'contact' | 'main' | 'learn';
@@ -398,13 +398,19 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                     <div className="md:col-span-4 space-y-8">
                         <div className="space-y-4">
                             <h3 className="font-bold text-lg">Direct Reach</h3>
-                            <div className="flex items-center gap-3 text-gray-600">
-                                <Mail className="w-5 h-5 text-primary" />
-                                <span>hermelagetachew999@gmail.com</span>
-                            </div>
-                            <div className="flex items-center gap-3 text-gray-600">
-                                <Globe className="w-5 h-5 text-primary" />
-                                <span>Global Support Center</span>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3 text-gray-600">
+                                    <Mail className="w-5 h-5 text-primary" />
+                                    <span>hermelagetachew999@gmail.com</span>
+                                </div>
+                                <div className="flex items-center gap-3 text-gray-600">
+                                    <MessageSquare className="w-5 h-5 text-primary" />
+                                    <span>+251 90 954 2151</span>
+                                </div>
+                                <div className="flex items-center gap-3 text-gray-600">
+                                    <Globe className="w-5 h-5 text-primary" />
+                                    <span>Hawassa, Ethiopia (1000)</span>
+                                </div>
                             </div>
                         </div>
                         <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10">

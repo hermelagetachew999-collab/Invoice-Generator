@@ -43,12 +43,31 @@ export default function Contact() {
                             <h2 className="text-3xl font-black">Email Support</h2>
                             <p className="text-gray-500 font-medium">Our team typically responds within 24 hours on business days.</p>
                         </div>
-                        <a
-                            href="mailto:hermelagetachew999@gmail.com"
-                            className="w-full h-16 bg-primary text-white font-bold rounded-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all text-lg shadow-xl shadow-primary/20"
-                        >
-                            hermelagetachew999@gmail.com
-                        </a>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <a
+                                href="mailto:hermelagetachew999@gmail.com"
+                                className="w-full h-16 bg-primary text-white font-bold rounded-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all text-sm shadow-xl shadow-primary/20"
+                            >
+                                <Mail className="w-4 h-4 mr-2" /> hermelagetachew999@gmail.com
+                            </a>
+                            <a
+                                href="tel:+251909542151"
+                                className="w-full h-16 bg-white border border-gray-100 text-gray-900 font-bold rounded-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all text-sm shadow-sm"
+                            >
+                                <MessageSquare className="w-4 h-4 mr-2 text-primary" /> +251 90 954 2151
+                            </a>
+                        </div>
+                        <div className="pt-6 border-t border-gray-100">
+                            <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 text-primary">
+                                    <Globe className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <div className="font-bold text-gray-900">Headquarters</div>
+                                    <p className="text-gray-500 text-sm">Hawassa, Ethiopia (Postal Code: 1000)</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

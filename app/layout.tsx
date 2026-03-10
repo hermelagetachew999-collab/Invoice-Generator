@@ -20,6 +20,39 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "InvoiceGen",
+              "url": "https://invoice-generator-two-mocha.vercel.app",
+              "logo": "https://invoice-generator-two-mocha.vercel.app/logo.png",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+251-909542151",
+                "contactType": "customer service",
+                "email": "hermelagetachew999@gmail.com",
+                "areaServed": "Global",
+                "availableLanguage": ["en", "am", "ar"]
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Hawassa",
+                "addressLocality": "Hawassa",
+                "postalCode": "1000",
+                "addressCountry": "ET"
+              },
+              "founder": {
+                "@type": "Person",
+                "name": "Hermela Getachew"
+              }
+            })
+          }}
+        />
+      </head>
       <body className={`${outfit.className} antialiased selection:bg-primary/10 selection:text-primary overflow-x-hidden`}>
         {children}
       </body>
