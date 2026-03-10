@@ -423,7 +423,7 @@ To minimize your tax liability legally, you must document every expense that is 
 - **Utilities and Rent**: If you have a dedicated office space or use a coworking hub like *iceaddis* or *BlueSpace*.
 - **Hardware and Equipment**: Laptops, cameras, and office furniture (these are often handled through "depreciation").
 - **Professional Services**: Payments made to your own accountant or legal consultants.
-- **Software Subscriptions**: Monthly fees for tools like Adobe Creative Cloud, GitHub, or premium tiers of **InvoiceGen**.
+- **Software Subscriptions**: Monthly fees for tools like Adobe Creative Cloud, GitHub, or use of **InvoiceGen**.
 
 ## 5. Filing Your Returns: Staying Ahead of the Deadline
 

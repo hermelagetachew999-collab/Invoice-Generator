@@ -120,7 +120,7 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                     {[
                         {
                             q: "Is this tool really free?",
-                            a: "Yes! Our core invoice generator is completely free. We offer premium tiers for heavy users or those who need to remove ads and unlock advanced features."
+                            a: "Yes! Our invoice generator is 100% free with no limits on the number of invoices you can create or download. There are no hidden tiers or subscriptions."
                         },
                         {
                             q: "What currencies are supported?",
@@ -128,11 +128,11 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                         },
                         {
                             q: "Can I save my invoices for later?",
-                            a: "Yes, by creating a free account, you can securely save and manage your invoice history across devices."
+                            a: "For your privacy, we currently process everything locally. You can download your invoices as PDF, Excel, or Image for your records."
                         },
                         {
                             q: "Is my private data secure?",
-                            a: "Absolutely. We use industry-standard encryption (AES-256) and don't share your financial details with third parties."
+                            a: "Absolutely. We don't store your financial details on our servers. Everything is generated directly in your browser."
                         }
                     ].map((faq, i) => (
                         <Card key={i} className="p-6 border-none bg-gray-50 shadow-sm hover:shadow-md transition-shadow">
@@ -168,8 +168,8 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                         <p>You are solely responsible for the accuracy of the information provided in your invoices. InvoiceGen is not an accounting firm and does not provide legal or tax advice.</p>
                     </section>
                     <section className="space-y-3">
-                        <h3 className="text-xl font-bold text-gray-900 border-l-4 border-primary pl-4">4. Payment and Subscriptions</h3>
-                        <p>Premium features are available via monthly subscriptions. Payments are non-refundable. You can cancel your subscription at any time through your account settings.</p>
+                        <h3 className="text-xl font-bold text-gray-900 border-l-4 border-primary pl-4">4. No Cost Service</h3>
+                        <p>InvoiceGen is provided as a free tool. We do not charge for access to our core features or PDF generation.</p>
                     </section>
                     <section className="space-y-3">
                         <h3 className="text-xl font-bold text-gray-900 border-l-4 border-primary pl-4">5. Limitation of Liability</h3>

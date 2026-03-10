@@ -5,11 +5,10 @@ import InvoiceForm from '@/components/InvoiceForm';
 import InvoicePreview from '@/components/InvoicePreview';
 import ContentSections from '@/components/ContentSections';
 import { Button } from '@/components/ui/button';
-import { Download, FileText, Layout, User as UserIcon, Table as TableIcon, Image as ImageIcon, Mail, Shield, Crown, X, Share2, Copy, Link as LinkIcon, Facebook, Linkedin, Twitter, ChevronDown, Menu, ArrowLeft, ChevronRight } from 'lucide-react';
+import { Download, FileText, Layout, Table as TableIcon, Image as ImageIcon, Mail, Shield, X, Share2, Copy, Link as LinkIcon, Facebook, Linkedin, Twitter, ChevronDown, Menu, ArrowLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { articles } from '@/lib/articles';
 import { generatePDF } from '@/lib/generatePDF';
-import AuthModal from '@/components/AuthModal';
 import * as XLSX from 'xlsx';
 import { toPng } from 'html-to-image';
 import { useRef } from 'react';
@@ -80,21 +79,6 @@ export default function Home() {
     terms: '',
   }));
 
-  const [downloadCount, setDownloadCount] = useState(0);
-
-  React.useEffect(() => {
-    const count = parseInt(localStorage.getItem('invoice_downloads') || '0');
-    setDownloadCount(count);
-
-    // Check for existing session
-    fetch('/api/auth/me')
-      .then(res => res.json())
-      .then(data => {
-        if (data.user) setUser(data.user);
-      })
-      .catch(err => console.error('Session check failed:', err));
-  }, []);
-
   React.useEffect(() => {
     setInvoiceData(prev => ({
       ...prev,
@@ -103,23 +87,11 @@ export default function Home() {
   }, []);
 
   const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
-  const [user, setUser] = useState<{ email: string; name?: string; tier?: string } | null>(null);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showShareTool, setShowShareTool] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const isPremium = user?.tier === 'unlimited' || user?.tier === 'no-ads';
-  const showAds = !user || user.tier !== 'no-ads';
-
   const handleDownload = async () => {
-    if (downloadCount >= 15 && !isPremium) {
-      setIsAuthModalOpen(true);
-      return;
-    }
     await generatePDF(invoiceData);
-    const newCount = downloadCount + 1;
-    setDownloadCount(newCount);
-    localStorage.setItem('invoice_downloads', newCount.toString());
     setShowShareTool(true);
   };
 
@@ -176,10 +148,6 @@ export default function Home() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isDesktopMenuOpen]);
 
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    setUser(null);
-  };
 
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
@@ -199,22 +167,14 @@ export default function Home() {
             >
               <span className="text-xl font-bold tracking-tight">InvoiceGen</span>
               <div className="flex items-center gap-1 -mt-1">
-                <Crown className="w-3 h-3 text-yellow-500" />
-                <span className="text-[10px] text-yellow-600 font-bold uppercase tracking-wider">
-                  {user?.tier === 'unlimited' ? 'Pro Tier' : user?.tier === 'no-ads' ? 'Pro Tier' : 'Free Tier'}
+                <span className="text-[10px] text-primary font-bold uppercase tracking-wider">
+                  Always Free & Unlimited
                 </span>
               </div>
             </button>
           </div>
 
           <nav className="hidden md:flex items-center space-x-6">
-            <Button
-              className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 flex items-center gap-2 px-6"
-              onClick={() => setIsAuthModalOpen(true)}
-            >
-              <Crown className="w-4 h-4" />
-              Upgrade
-            </Button>
 
             <div className="relative">
               <button
@@ -229,17 +189,6 @@ export default function Home() {
 
               {isDesktopMenuOpen && (
                 <div className="absolute top-full mt-2 right-0 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                  {user && (
-                    <div className="p-4 bg-gray-50/50 border-b border-gray-100 flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 text-primary">
-                        <UserIcon className="w-5 h-5" />
-                      </div>
-                      <div className="flex-1 overflow-hidden">
-                        <div className="text-sm font-bold text-gray-900 truncate">{user.name || 'User'}</div>
-                        <div className="text-[10px] text-gray-500 truncate">{user.email}</div>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="p-2 space-y-1">
                     {[
@@ -272,16 +221,6 @@ export default function Home() {
                       )
                     ))}
 
-                    {user && (
-                      <div className="pt-1 mt-1 border-t border-gray-100">
-                        <button
-                          onClick={handleLogout}
-                          className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors font-medium"
-                        >
-                          Log Out
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
@@ -289,11 +228,6 @@ export default function Home() {
           </nav>
 
           <div className="flex md:hidden items-center gap-2">
-            {!isPremium && (
-              <Button variant="outline" size="sm" className="border-yellow-200 text-yellow-700 bg-yellow-50" onClick={() => setIsAuthModalOpen(true)}>
-                Upgrade
-              </Button>
-            )}
             <Button
               variant="ghost"
               size="icon"
@@ -355,11 +289,7 @@ export default function Home() {
                 <Button onClick={handleDownload} className="w-full">
                   <Download className="w-4 h-4 mr-2" /> PDF
                 </Button>
-                {user ? (
-                  <Button variant="outline" onClick={handleLogout} className="w-full">Logout</Button>
-                ) : (
-                  <Button variant="outline" onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="w-full border-primary text-primary font-bold">Sign In</Button>
-                )}
+                  <Button variant="outline" className="w-full border-primary text-primary font-bold">Contact Support</Button>
               </div>
             </div>
           </div>
@@ -485,11 +415,6 @@ export default function Home() {
               </div>
             </section>
 
-            <AuthModal
-              isOpen={isAuthModalOpen}
-              onClose={() => setIsAuthModalOpen(false)}
-              onLogin={setUser}
-            />
           </>
 
         ) : (
