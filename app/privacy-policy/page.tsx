@@ -1,5 +1,3 @@
-"use client";
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Shield, Lock, Eye, FileText } from 'lucide-react';
@@ -27,11 +25,11 @@ export default function PrivacyPolicy() {
                 <div className="space-y-12">
                     <header className="space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold uppercase tracking-widest">
-                            Updated March 2026
+                            Updated March 2026 | TCF v2.3 Compliant
                         </div>
                         <h1 className="text-4xl sm:text-6xl font-black text-gray-900 leading-tight">Privacy Policy</h1>
                         <p className="text-xl text-gray-500 leading-relaxed font-medium">
-                            Your data privacy is our absolute priority. Here is how we handle your information.
+                            This policy was last updated in March 2026 to comply with TCF v2.3 frameworks. Your data privacy is our absolute priority.
                         </p>
                     </header>
 
@@ -68,7 +66,7 @@ export default function PrivacyPolicy() {
                         <p>Welcome to InvoiceGen. We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us.</p>
 
                         <h2>2. Information We Collect</h2>
-                        <p>We only collect information that you voluntarily provide to us when you register on the Services, express an interest in obtaining information about us or our products and Services, when you participate in activities on the Services or otherwise when you contact us.</p>
+                        <p>We only collect information that you voluntarily provide to us when you express an interest in obtaining information about us or our products and Services, when you participate in activities on the Services or otherwise when you contact us.</p>
                         <p><strong>Personal Information:</strong> We do not collect personal information like names or emails unless you voluntarily provide them via support inquiries.</p>
                         <p><strong>Invoice Data:</strong> To maximize privacy, all invoice generation happens "Client-Side" (in your web browser). We do not store sensitive invoice details or client lists on our servers.</p>
 
@@ -87,10 +85,7 @@ export default function PrivacyPolicy() {
                         <h2>5. Storage and Security</h2>
                         <p>We have implemented appropriate technical and organizational security measures designed to protect the security of any personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure.</p>
 
-                        <h2>6. Your Privacy Rights</h2>
-                        <p>In some regions, such as the European Economic Area (EEA) and United Kingdom (UK), you have rights that allow you greater access to and control over your personal information. Since we do not maintain accounts, your control resides in the data you provide to the tool during active sessions.</p>
-
-                        <h2>7. Third-Party Advertising (Google AdSense)</h2>
+                        <h2>6. Third-Party Advertising (Google AdSense)</h2>
                         <p>We use Google AdSense to serve ads when you visit our website. Google, as a third-party vendor, uses cookies to serve ads on our site.</p>
                         <ul>
                             <li>Google's use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.</li>
@@ -98,7 +93,10 @@ export default function PrivacyPolicy() {
                         </ul>
                         <p>For more information, please review <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google's Advertising Policies</a>.</p>
 
-                        <h2>7. Contact Us</h2>
+                        <h2>7. Your Privacy Rights</h2>
+                        <p>Since we do not maintain accounts, your control resides in the data you provide to the tool during active sessions. You have the right to request access to the limited personal information we may hold about you.</p>
+
+                        <h2>8. Contact Us</h2>
                         <p>If you have questions or comments about this policy, you may email us at: <strong>hermelagetachew999@gmail.com</strong></p>
                     </article>
                 </div>

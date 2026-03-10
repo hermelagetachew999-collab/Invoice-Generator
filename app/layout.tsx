@@ -28,38 +28,52 @@ export default function RootLayout({
           crossOrigin="anonymous"
         ></script>
         
-        {/* Google-Certified CMP Placeholder (User should enable in AdSense Dashboard) */}
+        {/* Google-Certified CMP Placeholder */}
         <meta name="google-adsense-adsbygoogle" content="ca-pub-2774149894101724" />
 
+        {/* Enhanced JSON-LD: Honesty & Identity Proofing */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "InvoiceGen",
-              "url": "https://invoice-generator-two-mocha.vercel.app",
-              "logo": "https://invoice-generator-two-mocha.vercel.app/logo.png",
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+251-909542151",
-                "contactType": "customer service",
-                "email": "hermelagetachew999@gmail.com",
-                "areaServed": "Global",
-                "availableLanguage": ["en", "am", "ar"]
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "InvoiceGen",
+                "alternateName": "Hermela Invoicing Tools",
+                "url": "https://invoice-generator-two-mocha.vercel.app",
+                "logo": "https://invoice-generator-two-mocha.vercel.app/logo.png",
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "telephone": "+251-909542151",
+                  "contactType": "customer service",
+                  "email": "hermelagetachew999@gmail.com",
+                  "areaServed": "Global",
+                  "availableLanguage": ["en", "am", "ar"]
+                },
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "Hawassa",
+                  "addressLocality": "Hawassa",
+                  "postalCode": "1000",
+                  "addressCountry": "ET"
+                }
               },
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Hawassa",
-                "addressLocality": "Hawassa",
-                "postalCode": "1000",
-                "addressCountry": "ET"
-              },
-              "founder": {
+              {
+                "@context": "https://schema.org",
                 "@type": "Person",
-                "name": "Hermela Getachew"
+                "name": "Hermela Getachew",
+                "jobTitle": "Founder & Lead Developer",
+                "url": "https://invoice-generator-two-mocha.vercel.app/about",
+                "sameAs": [
+                  "https://github.com/hermelagetachew999-collab"
+                ],
+                "worksFor": {
+                  "@type": "Organization",
+                  "name": "InvoiceGen"
+                }
               }
-            })
+            ])
           }}
         />
       </head>
