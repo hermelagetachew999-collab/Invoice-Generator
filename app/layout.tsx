@@ -21,6 +21,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* AdSense Primary Script */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2774149894101724"
+          crossOrigin="anonymous"
+        ></script>
+        
+        {/* Google-Certified CMP Placeholder (User should enable in AdSense Dashboard) */}
+        <meta name="google-adsense-adsbygoogle" content="ca-pub-2774149894101724" />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

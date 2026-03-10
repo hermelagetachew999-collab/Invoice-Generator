@@ -51,6 +51,20 @@ interface InvoiceData {
   terms?: string;
 }
 
+function AdPlaceholder({ label = "Advertisement", minHeight = "250px" }: { label?: string, minHeight?: string }) {
+  return (
+    <div 
+      className="w-full bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl flex items-center justify-center text-gray-400 font-bold text-xs uppercase tracking-widest my-8"
+      style={{ minHeight }}
+    >
+      <div className="flex flex-col items-center gap-2">
+        <Shield className="w-5 h-5 opacity-20" />
+        {label}
+      </div>
+    </div>
+  );
+}
+
 
 
 export default function Home() {
@@ -366,8 +380,15 @@ export default function Home() {
                 <div ref={previewRef} className="bg-white rounded-xl shadow-inner p-2 md:p-4 overflow-hidden">
                   <InvoicePreview data={invoiceData} />
                 </div>
-
+                
+                {/* Reserved Ad Space (prevents CLS) */}
+                <AdPlaceholder label="Bottom Banner Ad" minHeight="100px" />
               </div>
+            </div>
+
+            {/* Global Buffer for High-Click Zones (AdSense Compliance) */}
+            <div className="pt-24 border-t border-gray-100 mt-20">
+              <AdPlaceholder label="In-Feed Advertisement" />
             </div>
 
             {/* Knowledge Hub Section */}

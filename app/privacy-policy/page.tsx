@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
                 <div className="space-y-12">
                     <header className="space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold uppercase tracking-widest">
-                            Updated February 2026
+                            Updated March 2026
                         </div>
                         <h1 className="text-4xl sm:text-6xl font-black text-gray-900 leading-tight">Privacy Policy</h1>
                         <p className="text-xl text-gray-500 leading-relaxed font-medium">
@@ -89,6 +89,14 @@ export default function PrivacyPolicy() {
 
                         <h2>6. Your Privacy Rights</h2>
                         <p>In some regions, such as the European Economic Area (EEA) and United Kingdom (UK), you have rights that allow you greater access to and control over your personal information. Since we do not maintain accounts, your control resides in the data you provide to the tool during active sessions.</p>
+
+                        <h2>7. Third-Party Advertising (Google AdSense)</h2>
+                        <p>We use Google AdSense to serve ads when you visit our website. Google, as a third-party vendor, uses cookies to serve ads on our site.</p>
+                        <ul>
+                            <li>Google's use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.</li>
+                            <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google Ad Settings</a>.</li>
+                        </ul>
+                        <p>For more information, please review <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google's Advertising Policies</a>.</p>
 
                         <h2>7. Contact Us</h2>
                         <p>If you have questions or comments about this policy, you may email us at: <strong>hermelagetachew999@gmail.com</strong></p>
