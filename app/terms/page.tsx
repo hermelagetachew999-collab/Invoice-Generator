@@ -82,10 +82,18 @@ export default function TermsOfService() {
                         <h2>4. Limitation of Liability</h2>
                         <p>InvoiceGen is provided "as is" and "as available". We do not warrant that the service will be uninterrupted or error-free. In no event shall InvoiceGen, its founders, or employees be liable for any financial losses, tax penalties, or legal disputes resulting from the use of our generated documents.</p>
 
-                        <h2>5. Payments and Subscriptions</h2>
+                        <h2>5. Financial and Legal Disclaimer</h2>
+                        <p><strong>Informal Use Only:</strong> InvoiceGen provides a tool for generating documents for informal business use. We are not a professional accounting, tax, or legal firm.</p>
+                        <ul>
+                            <li>The documents generated are templates and do not constitute professional advice.</li>
+                            <li>Users are responsible for ensuring their invoices comply with local tax laws and regulations.</li>
+                            <li>InvoiceGen is not liable for any financial errors, tax penalties, or legal disputes arising from the use of its generated documents.</li>
+                        </ul>
+
+                        <h2>6. Payments and Subscriptions</h2>
                         <p>InvoiceGen is currently provided at no cost. In the event that we introduce charging models, users will be notified in advance and required to opt-in.</p>
 
-                        <h2>6. Termination</h2>
+                        <h2>7. Termination</h2>
                         <p>We reserve the right to terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
 
                         <h2>7. Changes to Terms</h2>

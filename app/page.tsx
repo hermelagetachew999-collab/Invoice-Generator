@@ -490,6 +490,9 @@ export default function Home() {
             <p className="text-xs text-gray-400 font-medium tracking-tight italic">
               © {new Date().getFullYear()} InvoiceGen. Built for the modern workforce. HTTPS Secured.
             </p>
+            <p className="text-[10px] text-gray-400 max-w-md text-center md:text-left italic">
+              Disclaimer: This tool is for informal use only and does not constitute professional accounting, tax, or legal advice.
+            </p>
             <div className="flex items-center gap-6 text-gray-400">
               <Shield className="w-5 h-5 opacity-50" />
               <div className="text-[10px] font-bold uppercase tracking-widest">Global Compliance V3.2</div>
