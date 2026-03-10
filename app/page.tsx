@@ -299,12 +299,6 @@ export default function Home() {
               >
                 Terms of Service
               </Link>
-              <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-3">
-                <Button onClick={handleDownload} className="w-full">
-                  <Download className="w-4 h-4 mr-2" /> PDF
-                </Button>
-                  <Button variant="outline" className="w-full border-primary text-primary font-bold">Contact Support</Button>
-              </div>
             </div>
           </div>
         )}
@@ -359,7 +353,8 @@ export default function Home() {
                 <InvoiceForm onChange={setInvoiceData} />
               </div>
 
-              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} space-y-6`}>
+              <div className={`${activeTab === 'preview' ? 'block' : 'hidden md:block'} space-y-6 relative`}>
+                <div className="sticky top-24 space-y-6">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                   <h2 className="text-2xl font-bold">Preview</h2>
                   <div className="flex flex-wrap gap-2">
@@ -379,6 +374,7 @@ export default function Home() {
                 </div>
                 <div ref={previewRef} className="bg-white rounded-xl shadow-inner p-2 md:p-4 overflow-hidden">
                   <InvoicePreview data={invoiceData} />
+                </div>
                 </div>
                 
                 {/* Reserved Ad Space (prevents CLS) */}
