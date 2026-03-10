@@ -416,7 +416,7 @@ export default function ContentSections({ activeSection = 'main' }: ContentSecti
                         <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10">
                             <h4 className="font-bold text-sm mb-2 text-primary">Inquiry Types</h4>
                             <p className="text-xs text-gray-500 leading-relaxed">
-                                Feel free to reach out for feature requests, partnership opportunities, or technical assistance with your premium account.
+                                Feel free to reach out for feature requests, partnership opportunities, or technical assistance with any issues.
                             </p>
                         </div>
                     </div>

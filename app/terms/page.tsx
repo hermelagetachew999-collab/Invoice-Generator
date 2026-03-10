@@ -68,7 +68,7 @@ export default function TermsOfService() {
                         <p>By accessing or using InvoiceGen, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access the service.</p>
 
                         <h2>2. Description of Service</h2>
-                        <p>InvoiceGen provides a web-based platform for creating, sharing, and managing professional invoices. We offer both free and premium subscription-based features.</p>
+                        <p>InvoiceGen provides a web-based platform for creating, sharing, and managing professional invoices. We offer our core features for free to support freelancers and small businesses.</p>
 
                         <h2>3. User Responsibilities</h2>
                         <p>As a user, you are responsible for:</p>
@@ -83,7 +83,7 @@ export default function TermsOfService() {
                         <p>InvoiceGen is provided "as is" and "as available". We do not warrant that the service will be uninterrupted or error-free. In no event shall InvoiceGen, its founders, or employees be liable for any financial losses, tax penalties, or legal disputes resulting from the use of our generated documents.</p>
 
                         <h2>5. Payments and Subscriptions</h2>
-                        <p>Subscription fees for premium tiers are billed in advance. All payments are non-refundable unless required by law. You may cancel your subscription at any time.</p>
+                        <p>InvoiceGen is currently provided at no cost. In the event that we introduce charging models, users will be notified in advance and required to opt-in.</p>
 
                         <h2>6. Termination</h2>
                         <p>We reserve the right to terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>

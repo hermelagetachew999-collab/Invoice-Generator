@@ -129,16 +129,6 @@ export default function ArticlePage() {
                                 </div>
                             </div>
 
-                            <div className="bg-primary p-8 rounded-[2rem] text-white space-y-4 shadow-xl shadow-primary/20">
-                                <Crown className="w-8 h-8 text-yellow-300" />
-                                <h4 className="text-xl font-bold">Try InvoiceGen Pro</h4>
-                                <p className="text-primary-foreground/80 text-sm leading-relaxed">
-                                    Unlock advanced templates, remove ads, and get unlimited PDF downloads.
-                                </p>
-                                <Button className="w-full bg-white text-primary hover:bg-white/90 font-bold h-12 rounded-xl">
-                                    Upgrade Now
-                                </Button>
-                            </div>
                         </div>
                     </aside>
                 </div>
@@ -158,11 +148,3 @@ export default function ArticlePage() {
     );
 }
 
-// Icons needed for sidebar
-function Crown({ className }: { className?: string }) {
-    return (
-        <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
-        </svg>
-    );
-}

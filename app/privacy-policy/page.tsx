@@ -48,14 +48,14 @@ export default function PrivacyPolicy() {
                                 <Eye className="w-6 h-6" />
                             </div>
                             <h3 className="font-bold text-gray-900 text-lg">Transparency</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">No hidden tracking. We only use essential cookies to keep you logged in and improve UX.</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">No hidden tracking. We only use essential session tools to improve your document generation experience.</p>
                         </div>
                         <div className="space-y-4">
                             <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center">
                                 <Shield className="w-6 h-6" />
                             </div>
                             <h3 className="font-bold text-gray-900 text-lg">Your Control</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">You can delete your account and all associated profile data at any time.</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">All processing is local. You have full control over the data you enter into your invoices.</p>
                         </div>
                     </div>
 
@@ -69,16 +69,16 @@ export default function PrivacyPolicy() {
 
                         <h2>2. Information We Collect</h2>
                         <p>We only collect information that you voluntarily provide to us when you register on the Services, express an interest in obtaining information about us or our products and Services, when you participate in activities on the Services or otherwise when you contact us.</p>
-                        <p><strong>Personal Information:</strong> We collect names, email addresses, and passwords for authentication purposes.</p>
-                        <p><strong>Invoice Data:</strong> To maximize privacy, the majority of invoice generation happens "Client-Side" (in your web browser). We do not store sensitive invoice details or client lists on our servers unless you explicitly save them to your profile (pro features).</p>
+                        <p><strong>Personal Information:</strong> We do not collect personal information like names or emails unless you voluntarily provide them via support inquiries.</p>
+                        <p><strong>Invoice Data:</strong> To maximize privacy, all invoice generation happens "Client-Side" (in your web browser). We do not store sensitive invoice details or client lists on our servers.</p>
 
                         <h2>3. How We Use Your Information</h2>
                         <p>We use personal information collected via our Services for a variety of business purposes described below:</p>
                         <ul>
-                            <li>To facilitate account creation and logon process.</li>
+                            <li>To provide and maintain our Service.</li>
                             <li>To send administrative information to you.</li>
                             <li>To protect our Services from fraud and abuse.</li>
-                            <li>To manage user accounts.</li>
+                            <li>To respond to legal requests and prevent harm.</li>
                         </ul>
 
                         <h2>4. Cookies and Tracking</h2>
@@ -88,7 +88,7 @@ export default function PrivacyPolicy() {
                         <p>We have implemented appropriate technical and organizational security measures designed to protect the security of any personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure.</p>
 
                         <h2>6. Your Privacy Rights</h2>
-                        <p>In some regions, such as the European Economic Area (EEA) and United Kingdom (UK), you have rights that allow you greater access to and control over your personal information. You may review, change, or terminate your account at any time.</p>
+                        <p>In some regions, such as the European Economic Area (EEA) and United Kingdom (UK), you have rights that allow you greater access to and control over your personal information. Since we do not maintain accounts, your control resides in the data you provide to the tool during active sessions.</p>
 
                         <h2>7. Contact Us</h2>
                         <p>If you have questions or comments about this policy, you may email us at: <strong>hermelagetachew999@gmail.com</strong></p>

@@ -73,7 +73,7 @@ export default function AboutUs() {
                 <div className="bg-primary p-12 rounded-[3rem] text-white text-center space-y-8 shadow-2xl shadow-primary/20">
                     <h3 className="text-4xl font-black">Support Our Journey</h3>
                     <p className="text-lg text-primary-foreground/90 max-w-xl mx-auto">
-                        InvoiceGen will always have a powerful free tier. Your support helps us keep the servers running and the features coming.
+                        InvoiceGen is a 100% free tool. Your feedback and support help us keep the servers running and the features coming.
                     </p>
                     <Link href="/contact" className="inline-block bg-white text-primary font-bold px-8 py-4 rounded-2xl hover:scale-105 transition-transform">
                         Get In Touch
