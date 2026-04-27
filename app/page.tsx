@@ -51,19 +51,6 @@ interface InvoiceData {
   terms?: string;
 }
 
-function AdPlaceholder({ label = "Advertisement", minHeight = "250px" }: { label?: string, minHeight?: string }) {
-  return (
-    <div 
-      className="w-full bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl flex items-center justify-center text-gray-400 font-bold text-xs uppercase tracking-widest my-8"
-      style={{ minHeight }}
-    >
-      <div className="flex flex-col items-center gap-2">
-        <Shield className="w-5 h-5 opacity-20" />
-        {label}
-      </div>
-    </div>
-  );
-}
 
 
 
@@ -344,11 +331,14 @@ export default function Home() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div className={`${activeTab === 'edit' ? 'block' : 'hidden md:block'} space-y-6`}>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex flex-col gap-4 mb-8">
                   <h2 className="text-2xl font-bold flex items-center">
                     <Layout className="w-6 h-6 mr-2 text-primary" />
                     Customize Details
                   </h2>
+                  <p className="text-gray-600 text-sm leading-relaxed bg-primary/5 p-4 rounded-2xl border border-primary/10">
+                    Fill in your business details and client information below. Add your line items, set the tax rate, and customize the look with your logo. Your changes will reflect in the preview on the right instantly. Once satisfied, download your professional PDF invoice for free.
+                  </p>
                 </div>
                 <InvoiceForm onChange={setInvoiceData} />
               </div>
@@ -377,15 +367,9 @@ export default function Home() {
                 </div>
                 </div>
                 
-                {/* Reserved Ad Space (prevents CLS) */}
-                <AdPlaceholder label="Bottom Banner Ad" minHeight="100px" />
               </div>
             </div>
 
-            {/* Global Buffer for High-Click Zones (AdSense Compliance) */}
-            <div className="pt-24 border-t border-gray-100 mt-20">
-              <AdPlaceholder label="In-Feed Advertisement" />
-            </div>
 
             {/* Knowledge Hub Section */}
             <section className="mt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
