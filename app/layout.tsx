@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Free Invoice Generator | Professional PDF Invoices for Freelancers",
   description: "Generate professional PDF invoices for free. Features include VAT/Tax calculation, discount application, multiple templates, and secure sharing. Perfect for freelancers and small businesses worldwide.",
   keywords: "free invoice generator, professional freelance invoices, pdf invoice creator, VAT calculator, tax invoice tool, business invoice sharing",
+  alternates: {
+    canonical: "https://invoicegenhub.com/",
+  },
   other: {
     "google-adsense-account": "ca-pub-2774149894101724",
   },
@@ -41,8 +44,8 @@ export default function RootLayout({
                 "@type": "Organization",
                 "name": "InvoiceGen",
                 "alternateName": "Hermela Invoicing Tools",
-                "url": "https://invoice-generator-two-mocha.vercel.app",
-                "logo": "https://invoice-generator-two-mocha.vercel.app/logo.png",
+                "url": "https://invoicegenhub.com",
+                "logo": "https://invoicegenhub.com/logo.png",
                 "contactPoint": {
                   "@type": "ContactPoint",
                   "telephone": "+251-909542151",
@@ -64,7 +67,7 @@ export default function RootLayout({
                 "@type": "Person",
                 "name": "Hermela Getachew",
                 "jobTitle": "Founder & Lead Developer",
-                "url": "https://invoice-generator-two-mocha.vercel.app/about",
+                "url": "https://invoicegenhub.com/about",
                 "sameAs": [
                   "https://github.com/hermelagetachew999-collab"
                 ],
