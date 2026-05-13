@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Scale, ShieldAlert, BadgeCheck, FileText } from 'lucide-react';
 import Link from 'next/link';
-
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
 export default function TermsOfService() {
     return (
         <div className="min-h-screen bg-white font-outfit">
@@ -103,6 +103,8 @@ export default function TermsOfService() {
                         <p>For legal inquiries, please reach out to <strong>hermelagetachew999@gmail.com</strong></p>
                     </article>
                 </div>
+                {/* Native Banner Ad */}
+                <AdsterraNativeBanner />
             </main>
 
             <footer className="bg-gray-900 text-white py-20">

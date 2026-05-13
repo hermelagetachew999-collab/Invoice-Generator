@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Shield, Lock, Eye, FileText } from 'lucide-react';
 import Link from 'next/link';
-
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
 export default function PrivacyPolicy() {
     return (
         <div className="min-h-screen bg-white font-outfit">
@@ -100,6 +100,8 @@ export default function PrivacyPolicy() {
                         <p>If you have questions or comments about this policy, you may email us at: <strong>hermelagetachew999@gmail.com</strong></p>
                     </article>
                 </div>
+                {/* Native Banner Ad */}
+                <AdsterraNativeBanner />
             </main>
 
             <footer className="bg-gray-900 text-white py-20">

@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
 export default function ArticlePage() {
     const { slug } = useParams();
     const router = useRouter();
@@ -132,6 +132,8 @@ export default function ArticlePage() {
                         </div>
                     </aside>
                 </div>
+                {/* Native Banner Ad */}
+                <AdsterraNativeBanner />
             </main>
 
             {/* Footer */}

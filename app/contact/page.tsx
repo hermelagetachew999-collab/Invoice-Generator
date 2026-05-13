@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Mail, MessageSquare, Linkedin, Twitter, Github, Globe } from 'lucide-react';
 import Link from 'next/link';
-
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
 export default function Contact() {
     return (
         <div className="min-h-screen bg-white font-outfit">
@@ -80,6 +80,8 @@ export default function Contact() {
                         Go to FAQ
                     </Link>
                 </div>
+                {/* Native Banner Ad */}
+                <AdsterraNativeBanner />
             </main>
 
             <footer className="bg-gray-900 text-white py-20">
