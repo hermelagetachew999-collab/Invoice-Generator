@@ -30,7 +30,7 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2774149894101724"
           crossOrigin="anonymous"
         ></script>
-        
+
         {/* Google-Certified CMP Placeholder */}
         <meta name="google-adsense-adsbygoogle" content="ca-pub-2774149894101724" />
 
@@ -82,6 +82,9 @@ export default function RootLayout({
       </head>
       <body className={`${outfit.className} antialiased selection:bg-primary/10 selection:text-primary overflow-x-hidden`}>
         {children}
+        {/* Adsterra social bar*/}
+        <script src="https://pl29437972.profitablecpmratenetwork.com/a1/a0/cc/a1a0ccd88804a0cb4c0095cf8bb4432e.js"></script>
+
       </body>
     </html>
   );
