@@ -1,12 +1,13 @@
 {
     "redirects": [
         {
-            "source": "http://invoicegenhub.com/:path*",
-            "destination": "https://invoicegenhub.com/:path*",
-            "permanent": true
-        },
-        {
-            "source": "https://www.invoicegenhub.com/:path*",
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "www.invoicegenhub.com"
+                }
+            ],
             "destination": "https://invoicegenhub.com/:path*",
             "permanent": true
         }
