@@ -1,15 +1,9 @@
 "use client";
+
+import React from 'react';
 import type { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  return {
-    alternates: {
-      canonical: `https://invoicegenhub.com/articles/${slug}`,
-    },
-  };
-}
-import React from 'react';
+
 import { useParams, useRouter } from 'next/navigation';
 import { articles } from '@/lib/articles';
 import { Button } from '@/components/ui/button';
@@ -19,6 +13,14 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = params;
+  return {
+    alternates: {
+      canonical: `https://invoicegenhub.com/articles/${slug}`,
+    },
+  };
+}
 export default function ArticlePage() {
     const { slug } = useParams();
     const router = useRouter();
