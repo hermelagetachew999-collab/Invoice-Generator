@@ -1,4 +1,11 @@
 import React from 'react';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://invoicegenhub.com/privacy-policy",
+  },
+};
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Shield, Lock, Eye, FileText } from 'lucide-react';
 import Link from 'next/link';

@@ -5,6 +5,13 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Scale, ShieldAlert, BadgeCheck, FileText } from 'lucide-react';
 import Link from 'next/link';
 import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://invoicegenhub.com/terms",
+  },
+};
 export default function TermsOfService() {
     return (
         <div className="min-h-screen bg-white font-outfit">
