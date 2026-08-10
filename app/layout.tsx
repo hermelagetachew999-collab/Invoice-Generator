@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Generate professional PDF invoices for free. Features include VAT/Tax calculation, discount application, multiple templates, and secure sharing. Perfect for freelancers and small businesses worldwide.",
   keywords: "free invoice generator, professional freelance invoices, pdf invoice creator, VAT calculator, tax invoice tool, business invoice sharing",
   alternates: {
-    canonical: "https:/www.invoicegenhub.com/",
+    canonical: "https://invoicegenhub.com/",
   },
   other: {
     "google-adsense-account": "ca-pub-2774149894101724",
@@ -44,7 +44,7 @@ export default function RootLayout({
                 "@type": "Organization",
                 "name": "InvoiceGen",
                 "alternateName": "Hermela Invoicing Tools",
-                "url": "https://invoicegenhub.com",
+                "url": "https://invoicegenhub.com/",
                 "logo": "https://invoicegenhub.com/logo.png",
                 "contactPoint": {
                   "@type": "ContactPoint",
