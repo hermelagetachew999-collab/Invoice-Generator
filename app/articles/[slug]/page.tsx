@@ -1,10 +1,6 @@
-"use client";
-
 import React from 'react';
 import type { Metadata } from "next";
 
-
-import { useParams, useRouter } from 'next/navigation';
 import { articles } from '@/lib/articles';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, Clock, Share2, Facebook, Linkedin, Twitter, FileText, ChevronRight } from 'lucide-react';
@@ -13,17 +9,21 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { slug } = params;
+  const article = articles.find(a => a.slug === slug);
   return {
+    title: article ? `${article.title} | InvoiceGen Blog` : 'Article Not Found',
+    description: article ? article.excerpt : 'The resource you are looking for doesn\'t exist or has been moved.',
     alternates: {
       canonical: `https://invoicegenhub.com/articles/${slug}`,
     },
   };
 }
-export default function ArticlePage() {
-    const { slug } = useParams();
-    const router = useRouter();
+
+export default function ArticlePage({ params }: { params: { slug: string } }) {
+    const { slug } = params;
     const article = articles.find(a => a.slug === slug);
 
     if (!article) {
@@ -35,16 +35,47 @@ export default function ArticlePage() {
                     </div>
                     <h1 className="text-3xl font-black text-gray-900">Article Not Found</h1>
                     <p className="text-gray-600">The resource you are looking for doesn't exist or has been moved.</p>
-                    <Button onClick={() => router.push('/')} className="w-full h-12 rounded-xl font-bold">
-                        Return Home
-                    </Button>
+                    <Link href="/" className="w-full block">
+                        <Button className="w-full h-12 rounded-xl font-bold">
+                            Return Home
+                        </Button>
+                    </Link>
                 </div>
             </div>
         );
     }
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": article.title,
+        "description": article.excerpt,
+        "datePublished": new Date(article.date).toISOString(),
+        "author": {
+            "@type": "Person",
+            "name": "Hermela Getachew",
+            "url": "https://invoicegenhub.com/about"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "InvoiceGen",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://invoicegenhub.com/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://invoicegenhub.com/articles/${slug}`
+        }
+    };
+
     return (
         <div className="min-h-screen bg-white font-outfit">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Article Header Nav */}
             <nav className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
                 <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">

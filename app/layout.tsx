@@ -8,7 +8,9 @@ export const metadata: Metadata = {
   title: "Free Invoice Generator | Professional PDF Invoices for Freelancers",
   description: "Generate professional PDF invoices for free. Features include VAT/Tax calculation, discount application, multiple templates, and secure sharing. Perfect for freelancers and small businesses worldwide.",
   keywords: "free invoice generator, professional freelance invoices, pdf invoice creator, VAT calculator, tax invoice tool, business invoice sharing",
-
+  alternates: {
+    canonical: "https://invoicegenhub.com/",
+  },
   other: {
     "google-adsense-account": "ca-pub-2774149894101724",
   },
@@ -73,6 +75,19 @@ export default function RootLayout({
                   "@type": "Organization",
                   "name": "InvoiceGen"
                 }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "InvoiceGen",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "All",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD"
+                },
+                "description": "Free professional PDF invoice generator for freelancers."
               }
             ])
           }}
