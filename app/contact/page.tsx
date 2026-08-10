@@ -1,4 +1,10 @@
-"use client";
+"use client";import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://invoicegenhub.com/contact",
+  },
+};
 
 import React from 'react';
 import { Button } from '@/components/ui/button';

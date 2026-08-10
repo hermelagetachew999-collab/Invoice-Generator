@@ -1,5 +1,14 @@
 "use client";
+import type { Metadata } from "next";
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  return {
+    alternates: {
+      canonical: `https://invoicegenhub.com/articles/${slug}`,
+    },
+  };
+}
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { articles } from '@/lib/articles';

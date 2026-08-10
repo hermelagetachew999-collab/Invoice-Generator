@@ -12,7 +12,13 @@ import { generatePDF } from '@/lib/generatePDF';
 import * as XLSX from 'xlsx';
 import { toPng } from 'html-to-image';
 import { useRef } from 'react';
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://invoicegenhub.com/",
+  },
+};
 interface LineItem {
   id: string;
   description: string;
