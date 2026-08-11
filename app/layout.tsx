@@ -1,8 +1,48 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"] });
+
+const SCHEMA_JSON = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "InvoiceGen",
+    "url": "https://invoicegenhub.com/",
+    "logo": "https://invoicegenhub.com/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+251-909542151",
+      "contactType": "customer service",
+      "email": "hermelagetachew999@gmail.com",
+      "areaServed": "Global",
+      "availableLanguage": ["en", "am", "ar"]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Hermela Getachew",
+    "jobTitle": "Founder & Lead Developer",
+    "url": "https://invoicegenhub.com/about",
+    "sameAs": ["https://github.com/hermelagetachew999-collab"],
+    "worksFor": { "@type": "Organization", "name": "InvoiceGen" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "InvoiceGen",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+]);
 
 export const metadata: Metadata = {
   title: "Free Invoice Generator | Professional PDF Invoices for Freelancers",
@@ -22,83 +62,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        {/* AdSense Primary Script */}
-        <script src="https://smelthrsfranz.com/a1/a0/cc/a1a0ccd88804a0cb4c0095cf8bb4432e.js"></script>
-<script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2774149894101724"
-          crossOrigin="anonymous"
-        ></script>
-
-        {/* Google-Certified CMP Placeholder */}
         <meta name="google-adsense-adsbygoogle" content="ca-pub-2774149894101724" />
-
-        {/* Enhanced JSON-LD: Honesty & Identity Proofing */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "InvoiceGen",
-                "alternateName": "Hermela Invoicing Tools",
-                "url": "https://invoicegenhub.com/",
-                "logo": "https://invoicegenhub.com/logo.png",
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "telephone": "+251-909542151",
-                  "contactType": "customer service",
-                  "email": "hermelagetachew999@gmail.com",
-                  "areaServed": "Global",
-                  "availableLanguage": ["en", "am", "ar"]
-                },
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "Hawassa",
-                  "addressLocality": "Hawassa",
-                  "postalCode": "1000",
-                  "addressCountry": "ET"
-                }
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Person",
-                "name": "Hermela Getachew",
-                "jobTitle": "Founder & Lead Developer",
-                "url": "https://invoicegenhub.com/about",
-                "sameAs": [
-                  "https://github.com/hermelagetachew999-collab"
-                ],
-                "worksFor": {
-                  "@type": "Organization",
-                  "name": "InvoiceGen"
-                }
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SoftwareApplication",
-                "name": "InvoiceGen",
-                "applicationCategory": "BusinessApplication",
-                "operatingSystem": "All",
-                "offers": {
-                  "@type": "Offer",
-                  "price": "0",
-                  "priceCurrency": "USD"
-                },
-                "description": "Free professional PDF invoice generator for freelancers."
-              }
-            ])
-          }}
-        />
       </head>
       <body className={`${outfit.className} antialiased selection:bg-primary/10 selection:text-primary overflow-x-hidden`}>
+        <script
+          id="schema-org"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: SCHEMA_JSON }}
+        />
+        
         {children}
-        {/* Adsterra social bar*/}
-<script src="https://smelthrsfranz.com/a1/a0/cc/a1a0ccd88804a0cb4c0095cf8bb4432e.js"></script>
 
+        {/* AdSense — loads after hydration */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2774149894101724"
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+        />
+
+        {/* Adsterra popunder — loads after hydration so it can't break it */}
+        <Script
+          id="adsterra-popunder"
+          strategy="lazyOnload"
+          data-cfasync="false"
+          src="https://smelthrsfranz.com/2aaf1a428ad18c4307bf71f64f8ea2a3/invoke.js"
+        />
       </body>
     </html>
   );
