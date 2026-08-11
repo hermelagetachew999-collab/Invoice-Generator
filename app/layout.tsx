@@ -97,7 +97,7 @@ export default function RootLayout({
       <body className={`${outfit.className} antialiased selection:bg-primary/10 selection:text-primary overflow-x-hidden`}>
         {children}
         {/* Adsterra social bar*/}
-        <script src="https://pl29437972.profitablecpmratenetwork.com/a1/a0/cc/a1a0ccd88804a0cb4c0095cf8bb4432e.js"></script>
+<script src="https://smelthrsfranz.com/a1/a0/cc/a1a0ccd88804a0cb4c0095cf8bb4432e.js"></script>
 
       </body>
     </html>
