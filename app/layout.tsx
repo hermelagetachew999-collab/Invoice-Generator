@@ -25,7 +25,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* AdSense Primary Script */}
-        <script
+        <script src="https://smelthrsfranz.com/a1/a0/cc/a1a0ccd88804a0cb4c0095cf8bb4432e.js"></script>
+<script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2774149894101724"
           crossOrigin="anonymous"
