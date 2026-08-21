@@ -1,13 +1,19 @@
 import React from 'react';
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "https://invoicegenhub.com/privacy-policy",
-  },
-};
+import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Shield, Lock, Eye, FileText } from 'lucide-react';
+
+export const metadata: Metadata = {
+    title: 'Privacy Policy — InvoiceGen',
+    description: 'Read the InvoiceGen privacy policy. We do not store your invoice data. All processing happens in your browser.',
+    alternates: {
+        canonical: 'https://invoicegenhub.com/privacy-policy',
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
+};
 import Link from 'next/link';
 import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
 export default function PrivacyPolicy() {

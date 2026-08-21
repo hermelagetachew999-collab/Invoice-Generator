@@ -1,16 +1,26 @@
 import React from 'react';
-
-import  type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "https://invoicegenhub.com/about",
-  },
-};
+import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Globe, Zap, Heart, User } from 'lucide-react';
 import Link from 'next/link';
 import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
+
+export const metadata: Metadata = {
+    title: 'About Us — Free Invoice Generator for Freelancers',
+    description: 'Learn about InvoiceGen — a free, professional invoice generator built for freelancers and small businesses worldwide. No sign-up, no fees, unlimited PDF downloads.',
+    alternates: {
+        canonical: 'https://invoicegenhub.com/about',
+    },
+    openGraph: {
+        type: 'website',
+        url: 'https://invoicegenhub.com/about',
+        title: 'About Us — InvoiceGen Free Invoice Generator',
+        description: 'Learn about InvoiceGen — a free, professional invoice generator built for freelancers and small businesses worldwide.',
+        siteName: 'InvoiceGen',
+        images: [{ url: 'https://invoicegenhub.com/og-image.png', width: 1200, height: 630, alt: 'InvoiceGen About Us' }],
+    },
+};
+
 export default function AboutUs() {
     return (
         <div className="min-h-screen bg-white font-outfit text-gray-900">
