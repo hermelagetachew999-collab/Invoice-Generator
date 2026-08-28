@@ -437,7 +437,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-16">
             <div className="md:col-span-2 space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <div className="bg-primary p-1.5 rounded-lg">
@@ -446,7 +446,7 @@ export default function Home() {
                 <span className="text-xl font-bold tracking-tighter">InvoiceGen</span>
               </div>
               <p className="text-sm text-gray-500 max-w-sm leading-relaxed">
-                Empowering freelancers and small businesses worldwide with professional invoicing tools. Simple, secure, and globally compliant.
+                Empowering freelancers and small businesses worldwide with free, instant PDF invoicing tools. Simple, secure, and globally compliant.
               </p>
             </div>
 
@@ -456,6 +456,16 @@ export default function Home() {
                 <li><button onClick={() => { setOpenSection('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Invoice Tool</button></li>
                 <li><button onClick={() => { setOpenSection('how-to'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">How to Use</button></li>
                 <li><button onClick={() => { setOpenSection('faq'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-primary transition-colors">Help & FAQ</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-[10px]">Templates</h4>
+              <ul className="space-y-4 text-sm">
+                <li><Link href="/templates" className="hover:text-primary transition-colors font-medium">All Templates</Link></li>
+                <li><Link href="/templates/freelance-invoice-template" className="hover:text-primary transition-colors">Freelance Invoice</Link></li>
+                <li><Link href="/templates/contractor-invoice-template" className="hover:text-primary transition-colors">Contractor Invoice</Link></li>
+                <li><Link href="/templates/consulting-invoice-template" className="hover:text-primary transition-colors">Consulting Invoice</Link></li>
               </ul>
             </div>
 

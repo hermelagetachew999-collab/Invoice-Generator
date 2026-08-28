@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             siteName: 'InvoiceGen',
             publishedTime: new Date(article.date).toISOString(),
             authors: ['https://invoicegenhub.com/about'],
-            tags: [article.category, 'invoicing', 'freelance', 'business'],
+            tags: [article.category, 'invoicing', 'freelance', 'business', 'invoice maker', 'pdf invoice'],
             images: [
                 {
                     url: 'https://invoicegenhub.com/og-image.png',
@@ -68,42 +68,59 @@ export default async function ArticlePage({ params }: PageProps) {
 
     const url = `https://invoicegenhub.com/articles/${article.slug}`;
 
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: article.title,
-        description: article.excerpt,
-        url,
-        datePublished: new Date(article.date).toISOString(),
-        dateModified: new Date(article.date).toISOString(),
-        author: {
-            '@type': 'Organization',
-            name: 'InvoiceGen',
-            url: 'https://invoicegenhub.com',
-        },
-        publisher: {
-            '@type': 'Organization',
-            name: 'InvoiceGen',
-            url: 'https://invoicegenhub.com',
-            logo: {
-                '@type': 'ImageObject',
-                url: 'https://invoicegenhub.com/logo.png',
+    const schemas: any[] = [
+        {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: article.title,
+            description: article.excerpt,
+            url,
+            datePublished: new Date(article.date).toISOString(),
+            dateModified: new Date().toISOString(),
+            author: {
+                '@type': 'Organization',
+                name: 'InvoiceGen',
+                url: 'https://invoicegenhub.com',
             },
+            publisher: {
+                '@type': 'Organization',
+                name: 'InvoiceGen',
+                url: 'https://invoicegenhub.com',
+                logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://invoicegenhub.com/logo.png',
+                },
+            },
+            mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': url,
+            },
+            image: 'https://invoicegenhub.com/og-image.png',
+            articleSection: article.category,
+            keywords: [article.category, 'invoicing', 'freelance', 'small business', 'PDF invoice', 'free invoice generator'].join(', '),
         },
-        mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': url,
-        },
-        image: 'https://invoicegenhub.com/og-image.png',
-        articleSection: article.category,
-        keywords: [article.category, 'invoicing', 'freelance', 'small business', 'PDF invoice'].join(', '),
-    };
+    ];
+
+    if (article.faqs && article.faqs.length > 0) {
+        schemas.push({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: article.faqs.map((faq) => ({
+                '@type': 'Question',
+                name: faq.question,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: faq.answer,
+                },
+            })),
+        });
+    }
 
     return (
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
             />
             <ArticleClient article={article} slug={slug} />
         </>
