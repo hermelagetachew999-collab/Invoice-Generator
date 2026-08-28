@@ -98,13 +98,13 @@ export default function PrivacyPolicy() {
                         <h2>5. Storage and Security</h2>
                         <p>We have implemented appropriate technical and organizational security measures designed to protect the security of any personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure.</p>
 
-                        <h2>6. Third-Party Advertising (Google AdSense)</h2>
-                        <p>We use Google AdSense to serve ads when you visit our website. Google, as a third-party vendor, uses cookies to serve ads on our site.</p>
+                        <h2>6. Third-Party Advertising & Cookie Disclosures (Google AdSense)</h2>
+                        <p>We use Google AdSense to serve advertisements when you visit our website. Google and its third-party advertising partners use cookies and web beacons to serve ads based on your prior visits to our website or other websites across the Internet.</p>
                         <ul>
-                            <li>Google's use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.</li>
-                            <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google Ad Settings</a>.</li>
+                            <li>Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.</li>
+                            <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google Ad Settings</a>. Alternatively, you can opt out of third-party vendors' use of cookies for personalized advertising by visiting <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">aboutads.info</a>.</li>
                         </ul>
-                        <p>For more information, please review <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google's Advertising Policies</a>.</p>
+                        <p>For explicit details on how Google collects, shares, and uses information when you use partner sites, please review <a href="https://www.google.com/policies/privacy/partners/" target="_blank" rel="noopener noreferrer" className="text-primary font-bold hover:underline">How Google uses data when you use our partners' sites or apps</a>.</p>
 
                         <h2>7. Your Privacy Rights</h2>
                         <p>Since we do not maintain accounts, your control resides in the data you provide to the tool during active sessions. You have the right to request access to the limited personal information we may hold about you.</p>

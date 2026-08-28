@@ -159,14 +159,6 @@ export default function RootLayout({
           strategy="lazyOnload"
           crossOrigin="anonymous"
         />
-
-        {/* Adsterra popunder — loads after hydration so it can't break it */}
-        <Script
-          id="adsterra-popunder"
-          strategy="lazyOnload"
-          data-cfasync="false"
-          src="https://smelthrsfranz.com/2aaf1a428ad18c4307bf71f64f8ea2a3/invoke.js"
-        />
       </body>
     </html>
   );
